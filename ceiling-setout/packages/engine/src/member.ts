@@ -61,7 +61,17 @@ export function makeMember(input: MemberInput): Member {
 
 /** A point member - a hanger, clip or bracket - as a zero-plan-length member. */
 export function makePointMember(
-  input: Omit<MemberInput, 'segment'> & { readonly at: Vec2; readonly top: number; readonly bottom: number },
+  input: Omit<MemberInput, 'segment'> & {
+    readonly at: Vec2;
+    readonly top: number;
+    readonly bottom: number;
+    /**
+     * Plan rotation, in radians. A clip straddles the member it sits on, so it has to
+     * turn with it: on a skew setout an axis-aligned clip would sit across its own
+     * channel.
+     */
+    readonly rotation?: number;
+  },
 ): Member {
   const { at, top, bottom } = input;
   const start: Vec3 = { x: quantise(at.x), y: quantise(at.y), z: quantise(bottom) };
@@ -75,7 +85,7 @@ export function makePointMember(
     end,
     length: quantise(Math.abs(top - bottom)),
     planLength: 0,
-    rotation: 0,
+    rotation: round(input.rotation ?? 0, 9),
     fixings: input.fixings ?? [],
     connectsTo: input.connectsTo ?? [],
     zoneId: input.zoneId,

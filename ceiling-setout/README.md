@@ -84,6 +84,28 @@ nothing about any particular ceiling system, which is why adding one is a data t
 Everything is generated in plan and projected onto the ceiling plane at the end, which is
 why a rake needs no special case anywhere upstream.
 
+## Hardware
+
+Members are drawn as the sections they are, not as bars. A furring channel is a top
+hat, a top cross rail is a C-channel, wall angle is an L, a hanger is a rod — and a
+KEY-LOCK clip is a folded plate straddling the rail with its feet under the channel
+flanges.
+
+The sections live in the rule pack, because a section is a manufacturer figure like a
+spacing and the same rule applies: none of it is in code. A section is either the line
+the metal follows plus its gauge (channels, angles, tees — how they are drawn and how
+they are rolled), an outline for a solid, or a diameter for a rod. Point hardware that
+has no section to extrude — clips, brackets — is a handful of primitives instead.
+
+Everything falls back honestly. A product with no section drawn but an overall size
+entered is shown as a plain rectangle of that size; one with neither is shown at a
+nominal size. The member inspector says which of the three you are looking at, because
+a bar that is the right size and the wrong shape must not read as the product.
+
+The loader cross-checks the drawn section against the size catalogued beside it, which
+is how a crown width typed into the overall-width field gets caught rather than
+silently producing a section half the width of the member it represents.
+
 ## Determinism
 
 Same project and same pack versions produce byte-identical output. Boolean operations run

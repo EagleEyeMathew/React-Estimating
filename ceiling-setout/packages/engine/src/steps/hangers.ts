@@ -143,6 +143,9 @@ export function generateAlongMember(params: HangerParams): HangerOutcome {
           at,
           top,
           bottom,
+          // A hanger is round and hangs plumb, so its rotation means nothing; a clip
+          // straddles its host and has to turn with it.
+          rotation: isSuspension ? 0 : host.rotation,
           plane,
           zoneId: zone.id,
           connectsTo: [host.id],

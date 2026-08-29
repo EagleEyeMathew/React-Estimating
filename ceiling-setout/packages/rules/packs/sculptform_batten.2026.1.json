@@ -25,7 +25,9 @@
       "massPerMetre": null,
       "depth": null,
       "width": null,
-      "packQuantity": null
+      "packQuantity": null,
+      "profile": null,
+      "component": null
     },
     {
       "code": "TBC-CLICKRAIL",
@@ -37,7 +39,9 @@
       "massPerMetre": null,
       "depth": null,
       "width": null,
-      "packQuantity": null
+      "packQuantity": null,
+      "profile": null,
+      "component": null
     },
     {
       "code": "TBC-BRACKET",
@@ -49,7 +53,9 @@
       "massPerMetre": null,
       "depth": null,
       "width": null,
-      "packQuantity": null
+      "packQuantity": null,
+      "profile": null,
+      "component": null
     },
     {
       "code": "TBC-TRIM",
@@ -61,7 +67,9 @@
       "massPerMetre": null,
       "depth": null,
       "width": null,
-      "packQuantity": null
+      "packQuantity": null,
+      "profile": null,
+      "component": null
     }
   ],
   "loadCases": [

@@ -62,9 +62,12 @@ describe('generation on a plain room', () => {
   it('gives every hanger a drop from the soffit to the top of the system', () => {
     const hangers = of('hanger');
     expect(hangers.length).toBeGreaterThan(0);
-    // Soffit at 3400, FCL 2700, system depth 120.
+    // Soffit at 3400, finished ceiling at 2700, less whatever the pack says the system
+    // is deep - read from the pack rather than repeated here, so a build-up that stops
+    // adding up shows as a failure in the pack, not as a stale number in the test.
+    const systemDepth = registry().get('rondo_keylock', '2026.1-example')!.buildUp.systemDepth!;
     for (const h of hangers) {
-      expect(h.length).toBe(3400 - 2700 - 120);
+      expect(h.length).toBe(3400 - 2700 - systemDepth);
       expect(h.fixings[0]!.substrate).toBe('concrete soffit');
     }
   });

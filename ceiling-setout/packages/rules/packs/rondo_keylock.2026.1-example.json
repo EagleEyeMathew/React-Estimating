@@ -30,7 +30,30 @@
       "massPerMetre": 0.9,
       "depth": 38,
       "width": 40,
-      "packQuantity": null
+      "packQuantity": null,
+      "profile": {
+        "kind": "sheet",
+        "thickness": 1,
+        "spine": [
+          [
+            -20,
+            38
+          ],
+          [
+            -20,
+            0
+          ],
+          [
+            20,
+            0
+          ],
+          [
+            20,
+            38
+          ]
+        ]
+      },
+      "component": null
     },
     {
       "code": "130",
@@ -46,7 +69,30 @@
       "massPerMetre": 1.2,
       "depth": 50,
       "width": 40,
-      "packQuantity": null
+      "packQuantity": null,
+      "profile": {
+        "kind": "sheet",
+        "thickness": 1.2,
+        "spine": [
+          [
+            -20,
+            50
+          ],
+          [
+            -20,
+            0
+          ],
+          [
+            20,
+            0
+          ],
+          [
+            20,
+            50
+          ]
+        ]
+      },
+      "component": null
     },
     {
       "code": "308",
@@ -60,9 +106,40 @@
         6000
       ],
       "massPerMetre": 0.7,
-      "depth": 16,
-      "width": 35,
-      "packQuantity": null
+      "depth": 17,
+      "width": 55,
+      "packQuantity": null,
+      "profile": {
+        "kind": "sheet",
+        "thickness": 1,
+        "spine": [
+          [
+            -27.5,
+            16
+          ],
+          [
+            -17.5,
+            16
+          ],
+          [
+            -17.5,
+            0
+          ],
+          [
+            17.5,
+            0
+          ],
+          [
+            17.5,
+            16
+          ],
+          [
+            27.5,
+            16
+          ]
+        ]
+      },
+      "component": null
     },
     {
       "code": "TBC-CLIP",
@@ -72,9 +149,80 @@
       ],
       "stockLengths": null,
       "massPerMetre": null,
-      "depth": null,
-      "width": null,
-      "packQuantity": null
+      "depth": 39,
+      "width": 44,
+      "packQuantity": null,
+      "component": {
+        "alignToHost": true,
+        "parts": [
+          {
+            "shape": "box",
+            "size": [
+              44,
+              1.5,
+              26
+            ],
+            "at": [
+              0,
+              38,
+              0
+            ]
+          },
+          {
+            "shape": "box",
+            "size": [
+              1.5,
+              38,
+              26
+            ],
+            "at": [
+              -21.5,
+              19,
+              0
+            ]
+          },
+          {
+            "shape": "box",
+            "size": [
+              1.5,
+              38,
+              26
+            ],
+            "at": [
+              21.5,
+              19,
+              0
+            ]
+          },
+          {
+            "shape": "box",
+            "size": [
+              10,
+              1.5,
+              26
+            ],
+            "at": [
+              -17,
+              0,
+              0
+            ]
+          },
+          {
+            "shape": "box",
+            "size": [
+              10,
+              1.5,
+              26
+            ],
+            "at": [
+              17,
+              0,
+              0
+            ]
+          }
+        ]
+      },
+      "profile": null
     },
     {
       "code": "TBC-ROD",
@@ -86,9 +234,14 @@
         3000
       ],
       "massPerMetre": 0.3,
-      "depth": null,
-      "width": null,
-      "packQuantity": null
+      "depth": 6,
+      "width": 6,
+      "packQuantity": null,
+      "profile": {
+        "kind": "round",
+        "diameter": 6
+      },
+      "component": null
     },
     {
       "code": "TBC-ANGLE",
@@ -100,9 +253,28 @@
         3000
       ],
       "massPerMetre": null,
-      "depth": null,
-      "width": null,
-      "packQuantity": null
+      "depth": 25,
+      "width": 25,
+      "packQuantity": null,
+      "profile": {
+        "kind": "sheet",
+        "thickness": 1,
+        "spine": [
+          [
+            0,
+            25
+          ],
+          [
+            0,
+            0
+          ],
+          [
+            25,
+            0
+          ]
+        ]
+      },
+      "component": null
     },
     {
       "code": "TBC-BRACE",
@@ -112,9 +284,14 @@
       ],
       "stockLengths": null,
       "massPerMetre": null,
-      "depth": null,
-      "width": null,
-      "packQuantity": null
+      "depth": 20,
+      "width": 20,
+      "packQuantity": null,
+      "profile": {
+        "kind": "round",
+        "diameter": 20
+      },
+      "component": null
     }
   ],
   "loadCases": [
@@ -200,7 +377,7 @@
       "enabled": true,
       "fixings": {
         "type": "as scheduled",
-        "substrate": "concrete soffit",
+        "substrate": "top cross rail, via KEY-LOCK clip",
         "countPerConnection": 1,
         "productCode": null
       },
@@ -226,7 +403,7 @@
       "enabled": true,
       "fixings": {
         "type": "as scheduled",
-        "substrate": "concrete soffit",
+        "substrate": "hanger",
         "countPerConnection": 1,
         "productCode": null
       },
@@ -250,11 +427,11 @@
       "enabled": true,
       "fixings": {
         "type": "as scheduled",
-        "substrate": "concrete soffit",
+        "substrate": "top cross rail",
         "countPerConnection": 1,
         "productCode": null
       },
-      "heightAboveFcl": null,
+      "heightAboveFcl": 29,
       "generator": "along-member",
       "along": "furring",
       "maxSpacing": 1200,
@@ -290,7 +467,7 @@
       "enabled": true,
       "fixings": {
         "type": "as scheduled",
-        "substrate": "concrete soffit",
+        "substrate": "wall",
         "countPerConnection": 1,
         "productCode": null
       },
@@ -333,7 +510,7 @@
   },
   "buildUp": {
     "liningThickness": 13,
-    "systemDepth": 120,
+    "systemDepth": 67,
     "minHangerDrop": 50,
     "maxHangerDrop": 1500
   },
@@ -812,6 +989,134 @@
       "enteredAt": null
     },
     "optimisation.minReusableOffcut": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "catalogue.129.profile": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "catalogue.130.profile": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "catalogue.308.profile": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "catalogue.TBC-CLIP.profile": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "catalogue.TBC-ROD.profile": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "catalogue.TBC-ANGLE.profile": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "catalogue.TBC-BRACE.profile": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "catalogue.TBC-CLIP.depth": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "catalogue.TBC-CLIP.width": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "catalogue.TBC-ROD.depth": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "catalogue.TBC-ROD.width": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "catalogue.TBC-ANGLE.depth": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "catalogue.TBC-ANGLE.width": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "layers.clip.heightAboveFcl": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "catalogue.TBC-BRACE.width": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "catalogue.TBC-BRACE.depth": {
       "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
       "reference": "none",
       "revision": "n/a",

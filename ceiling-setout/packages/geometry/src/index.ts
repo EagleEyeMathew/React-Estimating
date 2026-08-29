@@ -11,4 +11,5 @@ export * from './arc.js';
 export * from './plane.js';
 export * from './coverage.js';
 export * from './rng.js';
-export { SCALE, clipSegment, clipOpenPaths } from './clipper.js';
+export { SCALE, clipSegment, clipOpenPaths, thickenOpenPath } from './clipper.js';
+export * from './section.js';

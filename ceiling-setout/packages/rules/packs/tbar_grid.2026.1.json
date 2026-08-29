@@ -25,7 +25,9 @@
       "massPerMetre": null,
       "depth": null,
       "width": null,
-      "packQuantity": null
+      "packQuantity": null,
+      "profile": null,
+      "component": null
     },
     {
       "code": "TBC-CROSS-1200",
@@ -37,7 +39,9 @@
       "massPerMetre": null,
       "depth": null,
       "width": null,
-      "packQuantity": null
+      "packQuantity": null,
+      "profile": null,
+      "component": null
     },
     {
       "code": "TBC-CROSS-600",
@@ -49,7 +53,9 @@
       "massPerMetre": null,
       "depth": null,
       "width": null,
-      "packQuantity": null
+      "packQuantity": null,
+      "profile": null,
+      "component": null
     },
     {
       "code": "TBC-WIRE",
@@ -61,7 +67,9 @@
       "massPerMetre": null,
       "depth": null,
       "width": null,
-      "packQuantity": null
+      "packQuantity": null,
+      "profile": null,
+      "component": null
     },
     {
       "code": "TBC-PERIM",
@@ -73,7 +81,9 @@
       "massPerMetre": null,
       "depth": null,
       "width": null,
-      "packQuantity": null
+      "packQuantity": null,
+      "profile": null,
+      "component": null
     }
   ],
   "loadCases": [

@@ -25,9 +25,44 @@
         3600
       ],
       "massPerMetre": null,
-      "depth": null,
-      "width": null,
-      "packQuantity": null
+      "depth": 38,
+      "width": 24,
+      "packQuantity": null,
+      "profile": {
+        "kind": "sheet",
+        "thickness": 1.2,
+        "spine": [
+          [
+            -12,
+            0
+          ],
+          [
+            12,
+            0
+          ],
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            32
+          ],
+          [
+            -4,
+            38
+          ],
+          [
+            4,
+            38
+          ],
+          [
+            0,
+            32
+          ]
+        ]
+      },
+      "component": null
     },
     {
       "code": "TBC-CROSS-1200",
@@ -39,9 +74,44 @@
         1200
       ],
       "massPerMetre": null,
-      "depth": null,
-      "width": null,
-      "packQuantity": null
+      "depth": 32,
+      "width": 24,
+      "packQuantity": null,
+      "profile": {
+        "kind": "sheet",
+        "thickness": 1.2,
+        "spine": [
+          [
+            -12,
+            0
+          ],
+          [
+            12,
+            0
+          ],
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            26
+          ],
+          [
+            -3,
+            32
+          ],
+          [
+            3,
+            32
+          ],
+          [
+            0,
+            26
+          ]
+        ]
+      },
+      "component": null
     },
     {
       "code": "TBC-CROSS-600",
@@ -51,9 +121,44 @@
       ],
       "stockLengths": null,
       "massPerMetre": null,
-      "depth": null,
-      "width": null,
-      "packQuantity": null
+      "depth": 32,
+      "width": 24,
+      "packQuantity": null,
+      "profile": {
+        "kind": "sheet",
+        "thickness": 1.2,
+        "spine": [
+          [
+            -12,
+            0
+          ],
+          [
+            12,
+            0
+          ],
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            26
+          ],
+          [
+            -3,
+            32
+          ],
+          [
+            3,
+            32
+          ],
+          [
+            0,
+            26
+          ]
+        ]
+      },
+      "component": null
     },
     {
       "code": "TBC-WIRE",
@@ -63,9 +168,14 @@
       ],
       "stockLengths": null,
       "massPerMetre": null,
-      "depth": null,
-      "width": null,
-      "packQuantity": null
+      "depth": 2.5,
+      "width": 2.5,
+      "packQuantity": null,
+      "profile": {
+        "kind": "round",
+        "diameter": 2.5
+      },
+      "component": null
     },
     {
       "code": "TBC-PERIM",
@@ -77,9 +187,28 @@
         3000
       ],
       "massPerMetre": null,
-      "depth": null,
-      "width": null,
-      "packQuantity": null
+      "depth": 22,
+      "width": 22,
+      "packQuantity": null,
+      "profile": {
+        "kind": "sheet",
+        "thickness": 1,
+        "spine": [
+          [
+            0,
+            22
+          ],
+          [
+            0,
+            0
+          ],
+          [
+            22,
+            0
+          ]
+        ]
+      },
+      "component": null
     }
   ],
   "loadCases": [
@@ -150,7 +279,7 @@
       "enabled": true,
       "fixings": {
         "type": "as scheduled",
-        "substrate": null,
+        "substrate": "suspension wire",
         "countPerConnection": 1,
         "productCode": null
       },
@@ -174,7 +303,7 @@
       "enabled": true,
       "fixings": {
         "type": "as scheduled",
-        "substrate": null,
+        "substrate": "main tee",
         "countPerConnection": 1,
         "productCode": null
       },
@@ -198,7 +327,7 @@
       "enabled": false,
       "fixings": {
         "type": "as scheduled",
-        "substrate": null,
+        "substrate": "cross tee",
         "countPerConnection": 1,
         "productCode": null
       },
@@ -222,7 +351,7 @@
       "enabled": true,
       "fixings": {
         "type": "as scheduled",
-        "substrate": null,
+        "substrate": "concrete soffit",
         "countPerConnection": 1,
         "productCode": null
       },
@@ -242,7 +371,7 @@
       "enabled": true,
       "fixings": {
         "type": "as scheduled",
-        "substrate": null,
+        "substrate": "wall",
         "countPerConnection": 1,
         "productCode": null
       },
@@ -550,6 +679,126 @@
       "enteredAt": null
     },
     "optimisation.minReusableOffcut": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "catalogue.TBC-MAIN.profile": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "catalogue.TBC-CROSS-1200.profile": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "catalogue.TBC-CROSS-600.profile": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "catalogue.TBC-WIRE.profile": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "catalogue.TBC-PERIM.profile": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "catalogue.TBC-MAIN.depth": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "catalogue.TBC-MAIN.width": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "catalogue.TBC-CROSS-1200.depth": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "catalogue.TBC-CROSS-1200.width": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "catalogue.TBC-WIRE.depth": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "catalogue.TBC-WIRE.width": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "catalogue.TBC-PERIM.depth": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "catalogue.TBC-PERIM.width": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "catalogue.TBC-CROSS-600.width": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "catalogue.TBC-CROSS-600.depth": {
       "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
       "reference": "none",
       "revision": "n/a",

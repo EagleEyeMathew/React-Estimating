@@ -167,6 +167,28 @@ export function clipOpenPaths(paths: readonly (readonly Vec2[])[], clip: MultiPo
   return ClipperLib.Clipper.OpenPathsFromPolyTree(tree).map(pathToRing);
 }
 
+/**
+ * Thicken an open polyline into a closed outline.
+ *
+ * A folded sheet section - a top-hat furring channel, a C-channel, an angle - is
+ * naturally described as the line the metal follows plus its gauge, which is how it
+ * is drawn and how it is rolled. Turning that into a closed outline is the same
+ * offsetting operation the perimeter setback uses, with butt ends so the section
+ * stops square where the sheet stops.
+ */
+export function thickenOpenPath(path: readonly Vec2[], thickness: number): MultiPolygon {
+  if (path.length < 2 || thickness <= 0) return [];
+  const co = new ClipperLib.ClipperOffset(MITER_LIMIT, ARC_TOLERANCE);
+  co.AddPath(
+    path.map((p) => ({ X: toInt(p.x), Y: toInt(p.y) })),
+    ClipperLib.JoinType.jtMiter,
+    ClipperLib.EndType.etOpenButt,
+  );
+  const tree = new ClipperLib.PolyTree();
+  co.Execute(tree, (thickness / 2) * SCALE);
+  return polyTreeToMultiPolygon(tree);
+}
+
 /** Clip a straight segment against a polygon set. */
 export function clipSegment(seg: Segment, clip: MultiPolygon): Segment[] {
   return clipOpenPaths([[seg.a, seg.b]], clip)

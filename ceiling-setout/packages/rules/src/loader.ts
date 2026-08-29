@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { sectionOutline } from '@ceiling/geometry';
 import { rulePackSchema, type Layer, type RulePack } from './schema.js';
 import { readiness } from './paths.js';
 import { isAlongMember, isBrace, isLineArray, isPerimeter } from './values.js';
@@ -71,6 +72,33 @@ function crossCheck(pack: RulePack): PackProblem[] {
   for (const p of pack.catalogue) {
     if (productCodes.has(p.code) && pack.catalogue.filter((q) => q.code === p.code).length > 1) {
       problems.push({ severity: 'error', code: 'DUPLICATE_PRODUCT', path: `catalogue.${p.code}`, message: `product code "${p.code}" appears more than once` });
+    }
+    if (p.profile) {
+      const section = sectionOutline(p.profile);
+      if (!section) {
+        problems.push({
+          severity: 'error',
+          code: 'PROFILE_NOT_DRAWABLE',
+          path: `catalogue.${p.code}.profile`,
+          message: `the section drawn for "${p.code}" does not enclose an area - check the spine, the gauge, or that the outline does not cross itself`,
+        });
+      } else {
+        // A section drawn at the wrong scale, or an overall size typed in wrong, both
+        // show up here. Either way the two figures disagree and one of them is wrong.
+        const mismatch = (entered: number | null, measured: number, what: string): void => {
+          if (entered === null) return;
+          if (Math.abs(entered - measured) > Math.max(2, entered * 0.1)) {
+            problems.push({
+              severity: 'warning',
+              code: 'PROFILE_SIZE_MISMATCH',
+              path: `catalogue.${p.code}.profile`,
+              message: `the section drawn for "${p.code}" measures ${measured}mm ${what}, but ${entered}mm is entered as its ${what}`,
+            });
+          }
+        };
+        mismatch(p.width, section.width, 'width');
+        mismatch(p.depth, section.depth, 'depth');
+      }
     }
   }
 

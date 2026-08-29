@@ -3,8 +3,10 @@ import { Canvas, useThree, type ThreeEvent } from '@react-three/fiber';
 import { Grid, Line, OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
 import type { Member } from '@ceiling/engine';
+import type { Product } from '@ceiling/rules';
 import { planeZ } from '@ceiling/geometry';
 import { activeZone, activeZoneResult, useStore, visibleMembers, type ViewMode } from '../state/store.js';
+import { componentGeometry, memberGeometry, orientAlong } from './sections.js';
 
 /**
  * Member colours by type, matched to the plan and the PDF so a member is the same
@@ -24,79 +26,99 @@ const COLOURS: Record<string, string> = {
   trim: '#9aa0a6',
 };
 
-/** Section depths in mm, used only to give members a believable thickness in 3D. */
-const THICKNESS: Record<string, [number, number]> = {
-  furring: [35, 16],
-  batten: [42, 42],
-  tsr: [40, 38],
-  main_tee: [24, 38],
-  rail: [40, 25],
-  cross_tee: [24, 32],
-  trim: [25, 25],
-  bracket: [40, 40],
-  brace: [20, 20],
-  bridging: [50, 50],
-};
-
 // Model millimetres to scene units. Metres keep the camera and lights well conditioned.
 const S = 0.001;
 
-function MemberMesh({ member, selected, onSelect }: { member: Member; selected: boolean; onSelect: (id: string) => void }) {
+function MemberMesh({
+  member,
+  product,
+  selected,
+  onSelect,
+}: {
+  member: Member;
+  product: Product | null;
+  selected: boolean;
+  onSelect: (id: string) => void;
+}) {
   const colour = COLOURS[member.type] ?? '#9aa0a6';
-  const [w, h] = THICKNESS[member.type] ?? [30, 30];
-
-  const geometry = useMemo(() => {
-    if (member.type === 'hanger') {
-      // A hanger is drawn as the rod it is: thin, vertical, its true drop.
-      return { kind: 'rod' as const, length: Math.max(1, member.length) };
-    }
-    return { kind: 'bar' as const };
-  }, [member]);
-
-  const start = new THREE.Vector3(member.start.x * S, member.start.z * S, -member.start.y * S);
-  const end = new THREE.Vector3(member.end.x * S, member.end.z * S, -member.end.y * S);
-  const mid = start.clone().add(end).multiplyScalar(0.5);
-  const length = start.distanceTo(end);
-
-  const quaternion = useMemo(() => {
-    const dir = end.clone().sub(start).normalize();
-    return new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir);
-  }, [member.id, member.start.x, member.start.y, member.start.z, member.end.x, member.end.y, member.end.z]);
 
   const click = (e: ThreeEvent<MouseEvent>): void => {
     e.stopPropagation();
     onSelect(member.id);
   };
 
-  // A member that follows a curve is drawn as its polyline, not as a straight bar.
-  if (member.path && member.path.length > 1) {
+  const start = new THREE.Vector3(member.start.x * S, member.start.z * S, -member.start.y * S);
+  const end = new THREE.Vector3(member.end.x * S, member.end.z * S, -member.end.y * S);
+
+  const material = (
+    <meshStandardMaterial
+      color={selected ? '#ffd166' : colour}
+      emissive={selected ? '#664d00' : '#000000'}
+      emissiveIntensity={selected ? 0.6 : 0}
+      roughness={0.55}
+      metalness={0.35}
+    />
+  );
+
+  // Point hardware: a clip or bracket drawn as the parts the pack describes, sitting
+  // on its host member and turned to line up with it.
+  if (member.planLength === 0 && member.type !== 'hanger') {
+    const parts = product?.component ? componentGeometry(product.code, product.component) : null;
+    if (!parts) {
+      return (
+        <mesh position={start} onClick={click}>
+          <boxGeometry args={[0.03, 0.02, 0.03]} />
+          {material}
+        </mesh>
+      );
+    }
     return (
-      <Line
-        points={member.path.map((p) => [p.x * S, p.z * S, -p.y * S] as [number, number, number])}
-        color={selected ? '#ffd166' : colour}
-        lineWidth={selected ? 4 : 2}
-        onClick={click}
-      />
+      <group position={start} rotation={[0, -member.rotation, 0]} onClick={click}>
+        {parts.map((part, i) => (
+          <mesh key={i} geometry={part.geometry} position={part.position} quaternion={part.quaternion}>
+            {material}
+          </mesh>
+        ))}
+      </group>
     );
   }
 
-  if (length < 1e-6) return null;
+  // A curved run is extruded chord by chord, so a trim following a column reads as the
+  // section it is rather than as a line.
+  if (member.path && member.path.length > 1) {
+    const section = memberGeometry(product, member.type);
+    const points = member.path.map((p) => new THREE.Vector3(p.x * S, p.z * S, -p.y * S));
+    return (
+      <group onClick={click}>
+        {points.slice(0, -1).map((a, i) => {
+          const b = points[i + 1]!;
+          const length = a.distanceTo(b);
+          if (length < 1e-6) return null;
+          return (
+            <mesh key={i} geometry={section.geometry} position={a} quaternion={orientAlong(a, b)} scale={[1, 1, length]}>
+              {material}
+            </mesh>
+          );
+        })}
+      </group>
+    );
+  }
 
+  const length = start.distanceTo(end);
+  if (length < 1e-6) return null;
+  const section = memberGeometry(product, member.type);
+
+  // The geometry is extruded one unit along +Z, so a member is the same geometry
+  // turned to its own direction and stretched to its own length.
   return (
-    <mesh position={mid} quaternion={quaternion} onClick={click} castShadow={false}>
-      <boxGeometry
-        args={
-          geometry.kind === 'rod'
-            ? [8 * S, length, 8 * S]
-            : [w * S, length, h * S]
-        }
-      />
-      <meshStandardMaterial
-        color={selected ? '#ffd166' : colour}
-        emissive={selected ? '#664d00' : '#000000'}
-        roughness={0.6}
-        metalness={0.1}
-      />
+    <mesh
+      geometry={section.geometry}
+      position={start}
+      quaternion={orientAlong(start, end)}
+      scale={[1, 1, length]}
+      onClick={click}
+    >
+      {material}
     </mesh>
   );
 }
@@ -306,10 +328,17 @@ export function Viewer3D() {
   const result = useStore((s) => s.result);
   const activeZoneId = useStore((s) => s.activeZoneId);
   const hiddenLayers = useStore((s) => s.hiddenLayers);
+  const packs = useStore((s) => s.packs);
   const members = useMemo(
     () => visibleMembers(result, activeZoneId, hiddenLayers),
     [result, activeZoneId, hiddenLayers],
   );
+  // Sections come from the pack, so a member has to be able to find its product.
+  const products = useMemo(() => {
+    const byCode = new Map<string, Product>();
+    for (const pack of packs) for (const p of pack.catalogue) byCode.set(p.code, p);
+    return byCode;
+  }, [packs]);
   const selected = useStore((s) => s.selectedMemberId);
   const select = useStore((s) => s.selectMember);
   const mode = useStore((s) => s.viewMode);
@@ -340,7 +369,13 @@ export function Viewer3D() {
       <Lining />
       <SetoutDatum />
       {members.map((m) => (
-        <MemberMesh key={m.id} member={m} selected={m.id === selected} onSelect={select} />
+        <MemberMesh
+          key={m.id}
+          member={m}
+          product={m.productCode ? (products.get(m.productCode) ?? null) : null}
+          selected={m.id === selected}
+          onSelect={select}
+        />
       ))}
       <ViewController mode={mode} />
     </Canvas>

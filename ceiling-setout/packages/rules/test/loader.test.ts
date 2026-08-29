@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import { builtinPacks, builtinRegistry, provenanceBanner } from '../src/builtin.js';
+import { builtinPackJson, builtinPacks, builtinRegistry, provenanceBanner } from '../src/builtin.js';
 import { hasErrors, loadRulePack, packKey } from '../src/loader.js';
 import { readiness, valueSlots } from '../src/paths.js';
+import { sectionOutline } from '@ceiling/geometry';
 import rondoKeylock from '../packs/rondo_keylock.2026.1.json';
 
 describe('shipped packs', () => {
@@ -14,6 +15,28 @@ describe('shipped packs', () => {
       expect(problems.filter((p) => p.severity === 'error')).toEqual([]);
     }
     expect(packs.length).toBeGreaterThanOrEqual(7);
+  });
+
+  it('ships with no problems at all, not merely no errors', () => {
+    // Warnings included: an uncited value or a section that disagrees with the size
+    // entered beside it are exactly the things that should never ship unnoticed.
+    const problems = builtinPackJson.flatMap((raw) => {
+      const { pack, problems } = loadRulePack(raw);
+      return problems.map((p) => `${pack?.system}@${pack?.version} ${p.severity} ${p.code} ${p.path}: ${p.message}`);
+    });
+    expect(problems).toEqual([]);
+  });
+
+  it('draws every section it claims to, at the size catalogued beside it', () => {
+    for (const pack of packs) {
+      for (const product of pack.catalogue) {
+        if (!product.profile) continue;
+        const section = sectionOutline(product.profile);
+        expect(section, `${pack.system} ${product.code}`).not.toBeNull();
+        if (product.width !== null) expect(section!.width).toBeCloseTo(product.width, -0.5);
+        if (product.depth !== null) expect(section!.depth).toBeCloseTo(product.depth, -0.5);
+      }
+    }
   });
 
   it('ships skeletons with every figure blank', () => {

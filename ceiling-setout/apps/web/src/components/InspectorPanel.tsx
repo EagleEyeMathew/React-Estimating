@@ -44,6 +44,18 @@ export function InspectorPanel() {
               </tr>
             )}
             <tr>
+              <td>Section</td>
+              <td className="num">
+                {product?.profile
+                  ? `${product.profile.kind} profile, ${product.width ?? '?'} x ${product.depth ?? '?'}mm`
+                  : product?.component
+                    ? `${product.component.parts.length}-part component`
+                    : product?.width && product?.depth
+                      ? `${product.width} x ${product.depth}mm overall - shape not drawn`
+                      : 'not entered - shown at a nominal size'}
+              </td>
+            </tr>
+            <tr>
               <td>Cut length</td>
               <td className="num">{Math.round(member.length)}mm</td>
             </tr>

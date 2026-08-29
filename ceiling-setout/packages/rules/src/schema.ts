@@ -67,6 +67,60 @@ export const citationSchema = z.object({
 });
 export type Citation = z.infer<typeof citationSchema>;
 
+const point2 = z.tuple([z.number().finite(), z.number().finite()]);
+
+/**
+ * The cross-section of a product.
+ *
+ * A section is a manufacturer figure like a spacing, so it lives here and never in
+ * code. Its origin is the member's setout line - x across the member, y up - so the
+ * pack author decides where the line sits in the section and nothing downstream has to
+ * guess whether a channel hangs below its line or sits on it.
+ */
+export const sectionProfileSchema = z.discriminatedUnion('kind', [
+  /** A folded sheet: the line the metal follows plus its gauge. */
+  z.object({
+    kind: z.literal('sheet'),
+    spine: z.array(point2).min(2),
+    thickness: z.number().finite().positive(),
+  }),
+  /** A solid extrusion, given by its outline. */
+  z.object({ kind: z.literal('solid'), outline: z.array(point2).min(3) }),
+  /** A round bar, rod or wire. */
+  z.object({ kind: z.literal('round'), diameter: z.number().finite().positive() }),
+]);
+export type SectionProfile = z.infer<typeof sectionProfileSchema>;
+
+/**
+ * A piece of point hardware - a clip, a bracket, a rod adjuster - as a handful of
+ * primitives. Enough to make a clip read as a clip in the model without dragging a
+ * mesh file per product into the project, and still data rather than code.
+ */
+export const componentPartSchema = z.discriminatedUnion('shape', [
+  z.object({
+    shape: z.literal('box'),
+    /** Size across, up and along the host member, mm. */
+    size: z.tuple([z.number().positive(), z.number().positive(), z.number().positive()]),
+    at: z.tuple([z.number(), z.number(), z.number()]).default([0, 0, 0]),
+  }),
+  z.object({
+    shape: z.literal('cylinder'),
+    diameter: z.number().positive(),
+    length: z.number().positive(),
+    /** Which way the cylinder runs: across the member, up, or along it. */
+    axis: z.enum(['across', 'up', 'along']).default('up'),
+    at: z.tuple([z.number(), z.number(), z.number()]).default([0, 0, 0]),
+  }),
+]);
+export type ComponentPart = z.infer<typeof componentPartSchema>;
+
+export const componentSchema = z.object({
+  parts: z.array(componentPartSchema).min(1),
+  /** Rotate the whole component to line up with the member it sits on. */
+  alignToHost: z.boolean().default(true),
+});
+export type Component = z.infer<typeof componentSchema>;
+
 export const productSchema = z.object({
   code: z.string().min(1),
   description: z.string().min(1),
@@ -80,11 +134,24 @@ export const productSchema = z.object({
   stockLengths: z.array(z.number().positive()).nullable().default(null),
   /** Self weight, kg/m. */
   massPerMetre: enteredPositive().default(null),
-  /** Section depth and width, mm. Used for the 3D model and for build-up heights. */
+  /**
+   * Overall section size, mm - over the flange tips, not across the crown. These are
+   * what a member falls back to when its section has not been drawn, so they have to
+   * be the size that bounds it. The loader cross-checks them against the drawn
+   * section, which is how a crown width typed into the width field gets caught.
+   */
   depth: enteredPositive().default(null),
   width: enteredPositive().default(null),
   /** Pack quantity for ordering. */
   packQuantity: z.number().int().positive().nullable().default(null),
+  /**
+   * How the product is drawn in the model. Null like every other un-entered figure:
+   * a member whose section has not been drawn falls back to its overall size, and
+   * says so, rather than being shown as a shape nobody entered.
+   */
+  profile: sectionProfileSchema.nullable().default(null),
+  /** For point hardware - clips, brackets - which have no section to extrude. */
+  component: componentSchema.nullable().default(null),
 });
 export type Product = z.infer<typeof productSchema>;
 

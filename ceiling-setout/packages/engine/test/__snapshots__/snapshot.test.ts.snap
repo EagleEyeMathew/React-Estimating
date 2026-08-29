@@ -33,7 +33,7 @@ exports[`reference rooms > L-shaped room 1`] = `
       },
     },
   ],
-  "totalCutLength": 257700,
+  "totalCutLength": 261145,
 }
 `;
 
@@ -78,7 +78,7 @@ exports[`reference rooms > L-shaped room skewed 7 degrees with two columns 1`] =
       },
     },
   ],
-  "totalCutLength": 265757,
+  "totalCutLength": 269202,
 }
 `;
 
@@ -153,7 +153,7 @@ exports[`reference rooms > plain 6x4 room 1`] = `
       },
     },
   ],
-  "totalCutLength": 121400,
+  "totalCutLength": 122990,
 }
 `;
 
@@ -205,7 +205,7 @@ exports[`reference rooms > purlins above at 1500 centres 1`] = `
       },
     },
   ],
-  "totalCutLength": 145400,
+  "totalCutLength": 146990,
 }
 `;
 
@@ -242,7 +242,7 @@ exports[`reference rooms > raked 1:20 1`] = `
       },
     },
   ],
-  "totalCutLength": 116990,
+  "totalCutLength": 118580,
 }
 `;
 
@@ -282,6 +282,6 @@ exports[`reference rooms > services: 14 downlights and 3 diffusers 1`] = `
       },
     },
   ],
-  "totalCutLength": 135562,
+  "totalCutLength": 137258,
 }
 `;

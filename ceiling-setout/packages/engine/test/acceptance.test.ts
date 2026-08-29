@@ -164,9 +164,10 @@ describe('raked ceiling at 1:20', () => {
   });
 
   it('computes each drop from the soffit level less the ceiling and build-up', () => {
+    const systemDepth = registry().get('rondo_keylock', '2026.1-example')!.buildUp.systemDepth!;
     for (const h of hangers) {
       const ceiling = 2700 + h.start.x / 20;
-      expect(h.length).toBeCloseTo(3400 - ceiling - 120, 1);
+      expect(h.length).toBeCloseTo(3400 - ceiling - systemDepth, 1);
     }
   });
 

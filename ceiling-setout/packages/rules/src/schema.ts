@@ -234,8 +234,17 @@ export type LineArrayLayer = z.infer<typeof lineArrayLayerSchema>;
 export const alongMemberLayerSchema = z.object({
   ...layerBase,
   generator: z.literal('along-member'),
-  /** Layer whose members carry this one. */
+  /** Layer whose members this one carries - what hangs off it. */
   along: z.string().min(1),
+  /**
+   * What this hangs from. Null means the structure above.
+   *
+   * A real suspension is often more than one stage: rod from the joists down to a
+   * strut, then a second rod from the strut down to the rails. Naming the layer above
+   * lets a pack describe that, instead of every hanger being assumed to reach all the
+   * way to the slab.
+   */
+  hangsFrom: z.string().nullable().default(null),
   /** Maximum spacing along the host member, mm. */
   maxSpacing: enteredPositive().default(null),
   /** Maximum distance from a free end of the host member to the first point, mm. */

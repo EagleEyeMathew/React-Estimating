@@ -14,7 +14,7 @@ describe('shipped packs', () => {
       expect(pack).not.toBeNull();
       expect(problems.filter((p) => p.severity === 'error')).toEqual([]);
     }
-    expect(packs.length).toBeGreaterThanOrEqual(7);
+    expect(packs.length).toBeGreaterThanOrEqual(8);
   });
 
   it('ships with no problems at all, not merely no errors', () => {
@@ -135,6 +135,7 @@ describe('registry', () => {
   it('lists the systems it holds', () => {
     expect(builtinRegistry().systems()).toEqual([
       'nvelope_rail',
+      'rondo_flexistrut',
       'rondo_furring_directfix',
       'rondo_keylock',
       'sculptform_batten',

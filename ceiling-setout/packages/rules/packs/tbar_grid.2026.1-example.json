@@ -394,7 +394,7 @@
   },
   "buildUp": {
     "liningThickness": 15,
-    "systemDepth": 40,
+    "systemDepth": 38,
     "minHangerDrop": 50,
     "maxHangerDrop": 1500
   },

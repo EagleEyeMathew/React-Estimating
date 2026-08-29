@@ -5,6 +5,7 @@ import tbarGridExample from '../packs/tbar_grid.2026.1-example.json';
 import rondoDirectFix from '../packs/rondo_furring_directfix.2026.1.json';
 import nvelopeRail from '../packs/nvelope_rail.2026.1.json';
 import sculptformBatten from '../packs/sculptform_batten.2026.1.json';
+import rondoFlexistrut from '../packs/rondo_flexistrut.2026.1.json';
 import { loadRulePackOrThrow } from './loader.js';
 import { RulePackRegistry } from './registry.js';
 import type { RulePack } from './schema.js';
@@ -18,6 +19,7 @@ export const builtinPackJson: readonly unknown[] = [
   rondoDirectFix,
   nvelopeRail,
   sculptformBatten,
+  rondoFlexistrut,
 ];
 
 /**

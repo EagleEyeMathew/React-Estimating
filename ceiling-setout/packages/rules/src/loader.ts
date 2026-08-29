@@ -140,6 +140,15 @@ function crossCheck(pack: RulePack): PackProblem[] {
     if (isAlongMember(l)) {
       ref(l.along, `${base}.along`, `layer "${l.id}"`);
       ref(l.atCrossingsWith, `${base}.atCrossingsWith`, `layer "${l.id}"`);
+      ref(l.hangsFrom, `${base}.hangsFrom`, `layer "${l.id}"`);
+      if (l.hangsFrom === l.along) {
+        problems.push({
+          severity: 'error',
+          code: 'SELF_SUSPENSION',
+          path: `${base}.hangsFrom`,
+          message: `layer "${l.id}" cannot hang the "${l.along}" layer from itself`,
+        });
+      }
       const host = pack.layers.find((h) => h.id === l.along);
       if (host && !isLineArray(host) && !isPerimeter(host)) {
         problems.push({ severity: 'error', code: 'INVALID_HOST_LAYER', path: `${base}.along`, message: `layer "${l.id}" runs along "${l.along}", which generates no members to run along` });

@@ -138,6 +138,20 @@ Five skeletons ship with every figure blank:
 | `nvelope_rail` | Nvelope bracket and rail subframe |
 | `sculptform_batten` | Sculptform click-on batten over a subframe |
 
+One further pack, `rondo_flexistrut`, was read from a real detail rather than shipped
+blank: a Rondo furring ceiling on a Flexistrut subframe under existing joists. It
+carries the product codes and section sizes that detail calls up, and the spacings that
+detail was set out at — cited to the detail, and marked as the spacing *used on that
+job*, not as a manufacturer maximum. Seventeen figures it does not carry are still
+blank, so it does not generate until they are entered. That is the point.
+
+A suspension can be more than one stage. That pack is four tiers: a slotted angle fixed
+across the joists, an M10 rod down to a strut, an M6 rod down to the top cross rails,
+and the furring clipped up under them. A hanger names what it hangs from, so each rod
+spans between the two layers it actually joins rather than every hanger being assumed
+to reach the slab. Both ends come from the layers themselves, which is what stops a rod
+stopping short of the rail it holds.
+
 Fill them in from the current manufacturer literature using the rule pack editor, which
 records the document and revision against each value. Publishing forks to a new version,
 so a project saved against `2026.1` keeps regenerating against `2026.1`.

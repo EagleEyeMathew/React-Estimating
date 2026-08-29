@@ -36,6 +36,13 @@ export interface HangerParams {
   readonly structurePlane: Plane;
   readonly zone: Zone;
   readonly systemDepth: number | null;
+  /**
+   * Level of the layer this one hangs from, above the finished ceiling. Null when it
+   * hangs from the structure above, which is the single-stage case.
+   */
+  readonly hangsFromLevel: number | null;
+  /** Top of the member being hung, above the finished ceiling. */
+  readonly hostTop: number | null;
   readonly issues: IssueLog;
 }
 
@@ -108,18 +115,30 @@ export function generateAlongMember(params: HangerParams): HangerOutcome {
       }
     }
 
-    const snapped = isSuspension
-      ? snapToStructure(positions, seg, params, host)
-      : positions.map((p) => ({ ...p, snapNote: null as string | null, needsBridging: false }));
+    // Snapping only applies to a hanger that has to find something structural. One
+    // hanging off a strut fixes to the strut, wherever the strut happens to be.
+    const snapped =
+      isSuspension && params.hangsFromLevel === null
+        ? snapToStructure(positions, seg, params, host)
+        : positions.map((p) => ({ ...p, snapNote: null as string | null, needsBridging: false }));
 
     for (const p of snapped) {
       const at = pointAt(seg, p.distance);
       const id = alongMemberId(layer.id, host.id, p.distance);
       const ceilingLevel = planeZ(plane, at);
+
+      // A hanger runs from whatever carries it down to the top of what it hangs. Both
+      // ends come from the layers themselves rather than from a separately entered
+      // system depth, so a build-up that stops adding up cannot leave a rod stopping
+      // short of the rail it is holding.
       const bottom = isSuspension
-        ? ceilingLevel + (params.systemDepth ?? host.start.z - ceilingLevel)
+        ? ceilingLevel + (params.hostTop ?? params.systemDepth ?? host.start.z - ceilingLevel)
         : ceilingLevel + (layer.heightAboveFcl ?? 0);
-      const top = isSuspension ? planeZ(params.structurePlane, at) : bottom;
+      const top = !isSuspension
+        ? bottom
+        : params.hangsFromLevel !== null
+          ? ceilingLevel + params.hangsFromLevel
+          : planeZ(params.structurePlane, at);
 
       if (isSuspension && p.needsBridging) {
         const bridge = makeBridging(params, host, at, id);
@@ -129,7 +148,11 @@ export function generateAlongMember(params: HangerParams): HangerOutcome {
       const drop = top - bottom;
       const fixing: FixingSpec = {
         type: layer.fixings.type,
-        substrate: p.needsBridging ? 'bridging member' : structureSubstrate(params.structure, layer.fixings.substrate),
+        substrate: p.needsBridging
+          ? 'bridging member'
+          : params.hangsFromLevel !== null
+            ? (layer.fixings.substrate ?? layer.hangsFrom)
+            : structureSubstrate(params.structure, layer.fixings.substrate),
         count: layer.fixings.countPerConnection ?? 1,
         productCode: layer.fixings.productCode,
         at: { x: at.x, y: at.y, z: quantise(top) },

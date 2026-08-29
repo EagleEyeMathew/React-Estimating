@@ -68,6 +68,19 @@ export function generateLineArray(params: LineArrayParams): LineArrayOutcome {
   }
   const spacing = plan.spacing;
 
+  // Without a setback the lattice can only be centred on the zone, which is a guess
+  // about where the members sit relative to the walls. The packs promise that a layer
+  // whose required figures are blank is reported rather than generated, and this is
+  // one of them.
+  if (layer.maxFromWall === null) {
+    issues.error(
+      'SETBACK_NOT_ENTERED',
+      `${layer.id}: no maximum distance from wall has been entered, so no members were generated - without it there is nothing to set the first member off the wall by`,
+      { zoneId, ruleId: `layers.${layer.id}.maxFromWall` },
+    );
+    return { members: [], discarded: [], setbackOffsets: [] };
+  }
+
   const minSegmentLength = layer.minSegmentLength ?? 0;
   const array = lineArray({ region, direction, spacing, origin, minSegmentLength });
 
@@ -156,12 +169,6 @@ export function generateLineArray(params: LineArrayParams): LineArrayOutcome {
         { zoneId, ruleId: `layers.${layer.id}.maxFromWall` },
       );
     }
-  } else if (maxFromWall === null) {
-    issues.warn(
-      'SETBACK_NOT_ENTERED',
-      `${layer.id}: no maximum distance from wall has been entered, so the perimeter setback was not checked`,
-      { zoneId, ruleId: `layers.${layer.id}.maxFromWall` },
-    );
   }
 
   return { members: sortMembers(members), discarded: array.discarded, setbackOffsets };

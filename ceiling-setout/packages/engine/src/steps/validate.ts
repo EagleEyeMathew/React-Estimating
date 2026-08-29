@@ -59,6 +59,7 @@ export function validate(params: ValidateParams): void {
   checkCoverage(params, byLayer);
   checkOpeningEdges(params, byLayer);
   checkHangerDrops(params);
+  checkBuildUp(params);
 
   // A fixed module that breaches a span limit cannot be fixed by tightening the
   // spacing, so it is the user's decision - but it must be on the drawing.
@@ -119,10 +120,13 @@ function checkContainment(params: ValidateParams): void {
 function checkSpansAndOverhangs(params: ValidateParams, byLayer: Map<string, Member[]>): void {
   const { pack, reader, zone, issues } = params;
   for (const layer of pack.layers) {
-    if (!isLineArray(layer) || layer.supportedBy === null) continue;
+    // Not only layers that bear on another layer: a top cross rail bears on its
+    // hangers, and its span between them is the figure a load table is about. Skipping
+    // it because it names no supporting layer is how that check never ran.
+    if (!isLineArray(layer)) continue;
     if (!layer.enabled || zone.disabledLayers.includes(layer.id)) continue;
     const span = resolveSpan(reader, layer.id);
-    const supports = byLayer.get(layer.supportedBy) ?? [];
+    const supports = layer.supportedBy ? (byLayer.get(layer.supportedBy) ?? []) : [];
     const overhang = layer.maxEndOverhang;
     const all = params.members;
     // Anything that names a member in connectsTo bears on it there. A furring stub
@@ -130,18 +134,28 @@ function checkSpansAndOverhangs(params: ValidateParams, byLayer: Map<string, Mem
     // and counting only crossings with the nominal supporting layer would report
     // every one of them as a metre of unsupported cantilever.
     const extraSupports = new Map<string, Member[]>();
+    // Hangers and clips carry the member they name, at the point they sit on it. A
+    // rail's real span is between its hangers, and counting only crossings with
+    // another line layer would never check it at all.
+    const pointSupports = new Map<string, Member[]>();
     for (const other of all) {
-      if (other.planLength === 0) continue;
+      const into = other.planLength === 0 ? pointSupports : extraSupports;
       for (const id of other.connectsTo) {
-        const list = extraSupports.get(id) ?? [];
+        const list = into.get(id) ?? [];
         list.push(other);
-        extraSupports.set(id, list);
+        into.set(id, list);
       }
     }
 
     for (const m of byLayer.get(layer.id) ?? []) {
-      const crossings = crossingsAlong(m, [...supports, ...(extraSupports.get(m.id) ?? [])]);
+      const crossings = [
+        ...crossingsAlong(m, [...supports, ...(extraSupports.get(m.id) ?? [])]),
+        ...distancesAlong(m, pointSupports.get(m.id) ?? []),
+      ].sort((a, b) => a.distance - b.distance || a.memberId.localeCompare(b.memberId));
       if (crossings.length === 0) {
+        // A layer that names nothing to bear on and picks up no hangers is not
+        // unsupported - it is a layer with nothing to check.
+        if (layer.supportedBy === null) continue;
         // A trimmer crosses no TSR, and should not: it spans between the two members
         // it was set out against, which it names in connectsTo. Checking only for a
         // crossing would call every trimmer unsupported and bury the real ones.
@@ -227,6 +241,20 @@ function checkCoverage(params: ValidateParams, byLayer: Map<string, Member[]>): 
   }
 }
 
+/** Where point members sit along a member, as distances from its start. */
+function distancesAlong(member: Member, points: readonly Member[]): { distance: number; memberId: string }[] {
+  const length = member.planLength;
+  if (length <= 0) return [];
+  const ux = (member.end.x - member.start.x) / length;
+  const uy = (member.end.y - member.start.y) / length;
+  return points
+    .map((p) => ({
+      distance: quantise((p.start.x - member.start.x) * ux + (p.start.y - member.start.y) * uy),
+      memberId: p.id,
+    }))
+    .filter((p) => p.distance >= -1 && p.distance <= length + 1);
+}
+
 /**
  * Opening edges with no member near enough to support the lining.
  *
@@ -275,6 +303,37 @@ function checkOpeningEdges(params: ValidateParams, byLayer: Map<string, Member[]
         }
       }
     }
+  }
+}
+
+/**
+ * The entered system depth against the depth the layers actually add up to.
+ *
+ * The layers are the source now, so a system depth that disagrees is not used - but it
+ * is still a figure someone entered, and one of the two is wrong. Silence here is how
+ * a rod ends up stopping short of the rail it holds.
+ */
+function checkBuildUp(params: ValidateParams): void {
+  const { pack, zone, reader, issues } = params;
+  const entered = pack.buildUp.systemDepth;
+  if (entered === null) return;
+
+  let derived: number | null = null;
+  for (const layer of pack.layers) {
+    if (!layer.enabled || zone.disabledLayers.includes(layer.id)) continue;
+    if (layer.heightAboveFcl === null) continue;
+    const depth = reader.product(layer.product)?.depth ?? 0;
+    const top = layer.heightAboveFcl + depth;
+    if (derived === null || top > derived) derived = top;
+  }
+  if (derived === null) return;
+
+  if (Math.abs(derived - entered) > 1) {
+    issues.warn(
+      'BUILD_UP_MISMATCH',
+      `the layers add up to ${Math.round(derived)}mm from the finished ceiling to the top of the system, but ${entered}mm is entered as the system depth. The layers are what the drops were built from, so check which figure is wrong.`,
+      { zoneId: zone.id, ruleId: 'buildUp.systemDepth' },
+    );
   }
 }
 

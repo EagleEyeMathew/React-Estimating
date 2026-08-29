@@ -93,6 +93,30 @@ export function generate(options: GenerateOptions): GenerationResult & { readonl
   };
 }
 
+/**
+ * Order along-member layers so nothing is generated before what it hangs from.
+ * A cycle is already rejected by the loader, so a layer that cannot be placed here is
+ * one whose host is switched off - it is emitted last and reports itself.
+ */
+function orderAlongMembers<T extends { id: string; hangsFrom: string | null }>(layers: readonly T[]): T[] {
+  const done = new Set<string>();
+  const out: T[] = [];
+  let remaining = [...layers];
+  while (remaining.length > 0) {
+    const ready = remaining.filter((l) => l.hangsFrom === null || done.has(l.hangsFrom) || !layers.some((x) => x.id === l.hangsFrom));
+    if (ready.length === 0) {
+      out.push(...remaining);
+      break;
+    }
+    for (const l of ready) {
+      out.push(l);
+      done.add(l.id);
+    }
+    remaining = remaining.filter((l) => !ready.includes(l));
+  }
+  return out;
+}
+
 function generateZone(
   project: Project,
   zone: Zone,
@@ -239,12 +263,24 @@ function generateZone(
   }
 
   // 6 and 7. Hangers, clips and brackets, snapped to structure, with drops computed.
-  for (const layer of active.filter(isAlongMember)) {
+  // Ordered so a layer's host exists before it does: a rod hanging a strut has to be
+  // generated after the strut, and a second-stage rod after the first.
+  for (const layer of orderAlongMembers(active.filter(isAlongMember))) {
     const hosts = membersByLayer.get(layer.along) ?? [];
     if (hosts.length === 0) {
       issues.warn('NO_HOST_MEMBERS', `${layer.id}: no ${layer.along} members to place along`, { zoneId: zone.id });
       continue;
     }
+    // Both ends of a hanger come from the layers it joins: the underside of whatever
+    // carries it, and the top of whatever it hangs.
+    const from = layer.hangsFrom ? active.find((l) => l.id === layer.hangsFrom) : null;
+    const hostLayer = active.find((l) => l.id === layer.along);
+    const hostProduct = hostLayer ? reader.product(hostLayer.product) : null;
+    const hostTop =
+      hostLayer?.heightAboveFcl !== null && hostLayer?.heightAboveFcl !== undefined
+        ? hostLayer.heightAboveFcl + (hostProduct?.depth ?? 0)
+        : null;
+
     const outcome = generateAlongMember({
       pack,
       layer,
@@ -256,6 +292,8 @@ function generateZone(
       structurePlane,
       zone,
       systemDepth: pack.buildUp.systemDepth,
+      hangsFromLevel: from?.heightAboveFcl ?? null,
+      hostTop,
       issues,
     });
     membersByLayer.set(layer.id, [...outcome.members]);

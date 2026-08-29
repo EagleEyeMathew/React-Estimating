@@ -1,0 +1,568 @@
+{
+  "system": "rondo_flexistrut",
+  "name": "Rondo furring ceiling on a Flexistrut subframe under existing joists",
+  "version": "2026.1",
+  "status": "user-entered",
+  "units": "mm",
+  "manufacturer": "Rondo / Flexistrut",
+  "source": {
+    "source": "Eagle Eye Drafting detail 'Suspending ceiling rondo flexistrut', drawn at 1:20",
+    "reference": "section through the assembly",
+    "revision": null,
+    "date": null,
+    "enteredBy": "read from the detail",
+    "enteredAt": null
+  },
+  "notes": "Read from the user's own AutoCAD detail, not from a manufacturer table. The product codes and the section sizes are what that detail calls up. The spacings are what that detail was set out at on that job - they are NOT known to be the manufacturer's maxima, and entering them here as maxima is an assumption the user has to check against the current Rondo and Flexistrut literature before this pack is used on anything. Span figures and load cases are blank because the detail does not carry them. This is a four-tier suspension: the slotted angle is fixed across the joists, an M10 rod hangs the strut from it, an M6 rod hangs the top cross rails from the strut, and the furring channel clips up under the rails.",
+  "catalogue": [
+    {
+      "code": "129",
+      "description": "Rondo 129 furring channel, 28 x 38",
+      "roles": [
+        "furring"
+      ],
+      "stockLengths": null,
+      "massPerMetre": null,
+      "depth": 38,
+      "width": 28,
+      "packQuantity": null,
+      "profile": null,
+      "component": null
+    },
+    {
+      "code": "TCR-25X21",
+      "description": "Rondo top cross rail, 25 x 21 - product code to be confirmed",
+      "roles": [
+        "tsr"
+      ],
+      "stockLengths": null,
+      "massPerMetre": null,
+      "depth": 21,
+      "width": 25,
+      "packQuantity": null,
+      "profile": null,
+      "component": null
+    },
+    {
+      "code": "159",
+      "description": "Rondo 159 clip, furring channel to top cross rail",
+      "roles": [
+        "bracket"
+      ],
+      "stockLengths": null,
+      "massPerMetre": null,
+      "depth": null,
+      "width": null,
+      "packQuantity": null,
+      "profile": null,
+      "component": null
+    },
+    {
+      "code": "127",
+      "description": "Rondo 127 clip, furring channel to top cross rail",
+      "roles": [
+        "bracket"
+      ],
+      "stockLengths": null,
+      "massPerMetre": null,
+      "depth": null,
+      "width": null,
+      "packQuantity": null,
+      "profile": null,
+      "component": null
+    },
+    {
+      "code": "A124C",
+      "description": "Rondo A124C connector",
+      "roles": [
+        "bracket"
+      ],
+      "stockLengths": null,
+      "massPerMetre": null,
+      "depth": null,
+      "width": null,
+      "packQuantity": null,
+      "profile": null,
+      "component": null
+    },
+    {
+      "code": "FM1000T",
+      "description": "Flexistrut FM1000T strut channel",
+      "roles": [
+        "rail"
+      ],
+      "stockLengths": null,
+      "massPerMetre": null,
+      "depth": null,
+      "width": null,
+      "packQuantity": null,
+      "profile": null,
+      "component": null
+    },
+    {
+      "code": "FM1031",
+      "description": "Flexistrut FM1031 fitting, threaded rod to strut",
+      "roles": [
+        "bracket"
+      ],
+      "stockLengths": null,
+      "massPerMetre": null,
+      "depth": null,
+      "width": null,
+      "packQuantity": null,
+      "profile": null,
+      "component": null
+    },
+    {
+      "code": "EF1500-030/500",
+      "description": "Flexistrut EF1500-030/500, 30 x 30 precut slotted angle, slotted at 500",
+      "roles": [
+        "rail"
+      ],
+      "stockLengths": [
+        1500
+      ],
+      "massPerMetre": null,
+      "depth": 30,
+      "width": 30,
+      "packQuantity": null,
+      "profile": {
+        "kind": "sheet",
+        "thickness": 2.5,
+        "spine": [
+          [
+            0,
+            30
+          ],
+          [
+            0,
+            0
+          ],
+          [
+            30,
+            0
+          ]
+        ]
+      },
+      "component": null
+    },
+    {
+      "code": "M10-ROD",
+      "description": "M10 threaded rod",
+      "roles": [
+        "hanger"
+      ],
+      "stockLengths": null,
+      "massPerMetre": null,
+      "depth": 10,
+      "width": 10,
+      "packQuantity": null,
+      "profile": {
+        "kind": "round",
+        "diameter": 10
+      },
+      "component": null
+    },
+    {
+      "code": "M6-ROD",
+      "description": "M6 threaded rod",
+      "roles": [
+        "hanger"
+      ],
+      "stockLengths": null,
+      "massPerMetre": null,
+      "depth": 6,
+      "width": 6,
+      "packQuantity": null,
+      "profile": {
+        "kind": "round",
+        "diameter": 6
+      },
+      "component": null
+    },
+    {
+      "code": "TBC-ANGLE",
+      "description": "Perimeter wall angle - not shown on the detail, to be nominated",
+      "roles": [
+        "trim"
+      ],
+      "stockLengths": null,
+      "massPerMetre": null,
+      "depth": null,
+      "width": null,
+      "packQuantity": null,
+      "profile": null,
+      "component": null
+    }
+  ],
+  "loadCases": [
+    {
+      "id": "13mm_plasterboard",
+      "description": "Single layer 13mm plasterboard",
+      "lining": "13mm plasterboard",
+      "massPerSquareMetre": null,
+      "limits": [
+        {
+          "layerId": "furring",
+          "maxSpacing": null,
+          "maxSpan": null
+        },
+        {
+          "layerId": "top_cross_rail",
+          "maxSpacing": null,
+          "maxSpan": null
+        },
+        {
+          "layerId": "strut",
+          "maxSpacing": null,
+          "maxSpan": null
+        },
+        {
+          "layerId": "slotted_angle",
+          "maxSpacing": null,
+          "maxSpan": null
+        },
+        {
+          "layerId": "upper_rod",
+          "maxSpacing": null,
+          "maxSpan": null
+        },
+        {
+          "layerId": "lower_rod",
+          "maxSpacing": null,
+          "maxSpan": null
+        }
+      ]
+    }
+  ],
+  "layers": [
+    {
+      "id": "furring",
+      "description": "Rondo 129 furring channel carrying the lining",
+      "memberType": "furring",
+      "product": "129",
+      "alternativeProducts": [],
+      "enabled": true,
+      "fixings": {
+        "type": null,
+        "substrate": "top cross rail, via clip",
+        "countPerConnection": null,
+        "productCode": null
+      },
+      "heightAboveFcl": null,
+      "generator": "line-array",
+      "orientation": "primary",
+      "maxSpacing": null,
+      "module": null,
+      "maxFromWall": null,
+      "minSegmentLength": null,
+      "supportedBy": "top_cross_rail",
+      "maxEndOverhang": null,
+      "splitAtCrossingsWith": null
+    },
+    {
+      "id": "top_cross_rail",
+      "description": "25 x 21 top cross rail",
+      "memberType": "tsr",
+      "product": "TCR-25X21",
+      "alternativeProducts": [],
+      "enabled": true,
+      "fixings": {
+        "type": null,
+        "substrate": "M6 threaded rod",
+        "countPerConnection": null,
+        "productCode": null
+      },
+      "heightAboveFcl": null,
+      "generator": "line-array",
+      "orientation": "secondary",
+      "maxSpacing": null,
+      "module": null,
+      "maxFromWall": null,
+      "minSegmentLength": null,
+      "supportedBy": null,
+      "maxEndOverhang": null,
+      "splitAtCrossingsWith": null
+    },
+    {
+      "id": "strut",
+      "description": "Flexistrut FM1000T strut channel",
+      "memberType": "rail",
+      "product": "FM1000T",
+      "alternativeProducts": [],
+      "enabled": true,
+      "fixings": {
+        "type": null,
+        "substrate": "M10 threaded rod",
+        "countPerConnection": null,
+        "productCode": null
+      },
+      "heightAboveFcl": null,
+      "generator": "line-array",
+      "orientation": "primary",
+      "maxSpacing": null,
+      "module": null,
+      "maxFromWall": null,
+      "minSegmentLength": null,
+      "supportedBy": null,
+      "maxEndOverhang": null,
+      "splitAtCrossingsWith": null
+    },
+    {
+      "id": "slotted_angle",
+      "description": "30 x 30 precut slotted angle fixed across the joists",
+      "memberType": "rail",
+      "product": "EF1500-030/500",
+      "alternativeProducts": [],
+      "enabled": true,
+      "fixings": {
+        "type": null,
+        "substrate": "existing joist",
+        "countPerConnection": null,
+        "productCode": null
+      },
+      "heightAboveFcl": null,
+      "generator": "line-array",
+      "orientation": "secondary",
+      "maxSpacing": 500,
+      "module": null,
+      "maxFromWall": null,
+      "minSegmentLength": null,
+      "supportedBy": null,
+      "maxEndOverhang": null,
+      "splitAtCrossingsWith": null
+    },
+    {
+      "id": "joist_fixing",
+      "description": "Fixing from the slotted angle up into the joist",
+      "memberType": "hanger",
+      "product": null,
+      "alternativeProducts": [],
+      "enabled": true,
+      "fixings": {
+        "type": null,
+        "substrate": "existing joist",
+        "countPerConnection": null,
+        "productCode": null
+      },
+      "heightAboveFcl": null,
+      "generator": "along-member",
+      "along": "slotted_angle",
+      "hangsFrom": null,
+      "maxSpacing": null,
+      "firstFromEnd": null,
+      "atCrossingsWith": null
+    },
+    {
+      "id": "upper_rod",
+      "description": "M10 threaded rod hanging the strut from the slotted angle",
+      "memberType": "hanger",
+      "product": "M10-ROD",
+      "alternativeProducts": [],
+      "enabled": true,
+      "fixings": {
+        "type": null,
+        "substrate": "slotted angle",
+        "countPerConnection": null,
+        "productCode": "FM1031"
+      },
+      "heightAboveFcl": null,
+      "generator": "along-member",
+      "along": "strut",
+      "hangsFrom": "slotted_angle",
+      "maxSpacing": 1000,
+      "firstFromEnd": null,
+      "atCrossingsWith": null
+    },
+    {
+      "id": "lower_rod",
+      "description": "M6 threaded rod hanging the top cross rail from the strut",
+      "memberType": "hanger",
+      "product": "M6-ROD",
+      "alternativeProducts": [],
+      "enabled": true,
+      "fixings": {
+        "type": null,
+        "substrate": "Flexistrut FM1000T",
+        "countPerConnection": null,
+        "productCode": "A124C"
+      },
+      "heightAboveFcl": null,
+      "generator": "along-member",
+      "along": "top_cross_rail",
+      "hangsFrom": "strut",
+      "maxSpacing": 1000,
+      "firstFromEnd": null,
+      "atCrossingsWith": null
+    },
+    {
+      "id": "rail_clip",
+      "description": "Rondo clip at every furring-to-rail crossing",
+      "memberType": "bracket",
+      "product": "159",
+      "alternativeProducts": [
+        "127"
+      ],
+      "enabled": true,
+      "fixings": {
+        "type": null,
+        "substrate": "top cross rail",
+        "countPerConnection": null,
+        "productCode": null
+      },
+      "heightAboveFcl": null,
+      "generator": "along-member",
+      "along": "furring",
+      "hangsFrom": null,
+      "maxSpacing": null,
+      "firstFromEnd": null,
+      "atCrossingsWith": "top_cross_rail"
+    },
+    {
+      "id": "wall_angle",
+      "description": "Perimeter wall angle",
+      "memberType": "trim",
+      "product": "TBC-ANGLE",
+      "alternativeProducts": [],
+      "enabled": true,
+      "fixings": {
+        "type": null,
+        "substrate": "wall",
+        "countPerConnection": null,
+        "productCode": null
+      },
+      "heightAboveFcl": null,
+      "generator": "perimeter",
+      "cornerTreatment": "mitre",
+      "fixingCentres": null,
+      "firstFixingFromCorner": null,
+      "followHoles": true
+    }
+  ],
+  "penetration": {
+    "trimAboveArea": null,
+    "trimAboveWidth": null,
+    "clearance": null,
+    "trimmerLayer": "furring",
+    "doubleAboveWidth": null,
+    "hangerAtTrimmerEnds": true,
+    "minClearOfMember": null
+  },
+  "buildUp": {
+    "liningThickness": null,
+    "systemDepth": null,
+    "minHangerDrop": null,
+    "maxHangerDrop": null
+  },
+  "optimisation": {
+    "stockLengths": null,
+    "kerf": null,
+    "minReusableOffcut": null
+  },
+  "citations": {
+    "catalogue.129.width": {
+      "source": "Eagle Eye Drafting detail 'Suspending ceiling rondo flexistrut', drawn at 1:20",
+      "reference": "section through the assembly",
+      "revision": null,
+      "date": null,
+      "enteredBy": "read from the detail",
+      "enteredAt": null
+    },
+    "catalogue.129.depth": {
+      "source": "Eagle Eye Drafting detail 'Suspending ceiling rondo flexistrut', drawn at 1:20",
+      "reference": "section through the assembly",
+      "revision": null,
+      "date": null,
+      "enteredBy": "read from the detail",
+      "enteredAt": null
+    },
+    "catalogue.TCR-25X21.width": {
+      "source": "Eagle Eye Drafting detail 'Suspending ceiling rondo flexistrut', drawn at 1:20",
+      "reference": "section through the assembly",
+      "revision": null,
+      "date": null,
+      "enteredBy": "read from the detail",
+      "enteredAt": null
+    },
+    "catalogue.TCR-25X21.depth": {
+      "source": "Eagle Eye Drafting detail 'Suspending ceiling rondo flexistrut', drawn at 1:20",
+      "reference": "section through the assembly",
+      "revision": null,
+      "date": null,
+      "enteredBy": "read from the detail",
+      "enteredAt": null
+    },
+    "catalogue.EF1500-030/500.width": {
+      "source": "Eagle Eye Drafting detail 'Suspending ceiling rondo flexistrut', drawn at 1:20",
+      "reference": "section through the assembly",
+      "revision": null,
+      "date": null,
+      "enteredBy": "read from the detail",
+      "enteredAt": null
+    },
+    "catalogue.EF1500-030/500.depth": {
+      "source": "Eagle Eye Drafting detail 'Suspending ceiling rondo flexistrut', drawn at 1:20",
+      "reference": "section through the assembly",
+      "revision": null,
+      "date": null,
+      "enteredBy": "read from the detail",
+      "enteredAt": null
+    },
+    "catalogue.M10-ROD.width": {
+      "source": "Eagle Eye Drafting detail 'Suspending ceiling rondo flexistrut', drawn at 1:20",
+      "reference": "section through the assembly",
+      "revision": null,
+      "date": null,
+      "enteredBy": "read from the detail",
+      "enteredAt": null
+    },
+    "catalogue.M10-ROD.depth": {
+      "source": "Eagle Eye Drafting detail 'Suspending ceiling rondo flexistrut', drawn at 1:20",
+      "reference": "section through the assembly",
+      "revision": null,
+      "date": null,
+      "enteredBy": "read from the detail",
+      "enteredAt": null
+    },
+    "catalogue.M6-ROD.width": {
+      "source": "Eagle Eye Drafting detail 'Suspending ceiling rondo flexistrut', drawn at 1:20",
+      "reference": "section through the assembly",
+      "revision": null,
+      "date": null,
+      "enteredBy": "read from the detail",
+      "enteredAt": null
+    },
+    "catalogue.M6-ROD.depth": {
+      "source": "Eagle Eye Drafting detail 'Suspending ceiling rondo flexistrut', drawn at 1:20",
+      "reference": "section through the assembly",
+      "revision": null,
+      "date": null,
+      "enteredBy": "read from the detail",
+      "enteredAt": null
+    },
+    "layers.lower_rod.maxSpacing": {
+      "source": "Eagle Eye Drafting detail 'Suspending ceiling rondo flexistrut', drawn at 1:20 - the spacing USED on that job, NOT confirmed as a manufacturer maximum",
+      "reference": "1000 centres shown on the section",
+      "revision": null,
+      "date": null,
+      "enteredBy": "read from the detail",
+      "enteredAt": null
+    },
+    "layers.upper_rod.maxSpacing": {
+      "source": "Eagle Eye Drafting detail 'Suspending ceiling rondo flexistrut', drawn at 1:20 - the spacing USED on that job, NOT confirmed as a manufacturer maximum",
+      "reference": "1000 centres shown on the section",
+      "revision": null,
+      "date": null,
+      "enteredBy": "read from the detail",
+      "enteredAt": null
+    },
+    "layers.slotted_angle.maxSpacing": {
+      "source": "Eagle Eye Drafting detail 'Suspending ceiling rondo flexistrut', drawn at 1:20 - the spacing USED on that job, NOT confirmed as a manufacturer maximum",
+      "reference": "1000 centres shown on the section",
+      "revision": null,
+      "date": null,
+      "enteredBy": "read from the detail",
+      "enteredAt": null
+    }
+  }
+}

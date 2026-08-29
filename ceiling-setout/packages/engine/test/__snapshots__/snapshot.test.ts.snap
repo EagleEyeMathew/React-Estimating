@@ -116,7 +116,7 @@ exports[`reference rooms > exposed T-bar grid 1`] = `
       },
     },
   ],
-  "totalCutLength": 83840,
+  "totalCutLength": 83888,
 }
 `;
 
@@ -181,6 +181,12 @@ exports[`reference rooms > purlins above at 1500 centres 1`] = `
     "info HANGER_NEEDS_BRIDGING",
     "info HANGER_NEEDS_BRIDGING",
     "info HANGER_NEEDS_BRIDGING",
+    "warning END_OVERHANG",
+    "warning END_OVERHANG",
+    "warning END_OVERHANG",
+    "warning END_OVERHANG",
+    "warning END_OVERHANG",
+    "warning END_OVERHANG",
   ],
   "members": 122,
   "setout": [

@@ -1,0 +1,226 @@
+{
+  "system": "sculptform_batten",
+  "name": "Sculptform click-on batten over a rail subframe",
+  "version": "2026.1",
+  "status": "skeleton",
+  "units": "mm",
+  "manufacturer": "Sculptform",
+  "source": {
+    "source": "Sculptform click-on batten technical literature (to be nominated by the user)",
+    "reference": null,
+    "revision": null,
+    "date": null,
+    "enteredBy": null,
+    "enteredAt": null
+  },
+  "notes": "Skeleton pack. Every spacing, span and load figure is null and must be entered from the current manufacturer literature, with the document and revision recorded against each value. The engine will not generate a layer whose required figures are blank - it raises an issue naming the value instead. Nothing in this pack has been checked against any published table. Batten centres are a visible module set by the selected batten profile and gap, not a span figure - enter them as the module.",
+  "catalogue": [
+    {
+      "code": "TBC-BATTEN",
+      "description": "Click-on batten - to be entered from the manufacturer literature",
+      "roles": [
+        "batten"
+      ],
+      "stockLengths": null,
+      "massPerMetre": null,
+      "depth": null,
+      "width": null,
+      "packQuantity": null
+    },
+    {
+      "code": "TBC-CLICKRAIL",
+      "description": "Click-on rail - to be entered from the manufacturer literature",
+      "roles": [
+        "rail"
+      ],
+      "stockLengths": null,
+      "massPerMetre": null,
+      "depth": null,
+      "width": null,
+      "packQuantity": null
+    },
+    {
+      "code": "TBC-BRACKET",
+      "description": "Subframe bracket - to be entered from the manufacturer literature",
+      "roles": [
+        "bracket"
+      ],
+      "stockLengths": null,
+      "massPerMetre": null,
+      "depth": null,
+      "width": null,
+      "packQuantity": null
+    },
+    {
+      "code": "TBC-TRIM",
+      "description": "Edge trim - to be entered from the manufacturer literature",
+      "roles": [
+        "trim"
+      ],
+      "stockLengths": null,
+      "massPerMetre": null,
+      "depth": null,
+      "width": null,
+      "packQuantity": null
+    }
+  ],
+  "loadCases": [
+    {
+      "id": "timber_batten",
+      "description": "Timber click-on batten",
+      "lining": "timber batten",
+      "massPerSquareMetre": null,
+      "limits": [
+        {
+          "layerId": "batten",
+          "maxSpacing": null,
+          "maxSpan": null
+        },
+        {
+          "layerId": "click_rail",
+          "maxSpacing": null,
+          "maxSpan": null
+        },
+        {
+          "layerId": "bracket",
+          "maxSpacing": null,
+          "maxSpan": null
+        }
+      ]
+    },
+    {
+      "id": "aluminium_batten",
+      "description": "Aluminium click-on batten",
+      "lining": "aluminium batten",
+      "massPerSquareMetre": null,
+      "limits": [
+        {
+          "layerId": "batten",
+          "maxSpacing": null,
+          "maxSpan": null
+        },
+        {
+          "layerId": "click_rail",
+          "maxSpacing": null,
+          "maxSpan": null
+        },
+        {
+          "layerId": "bracket",
+          "maxSpacing": null,
+          "maxSpan": null
+        }
+      ]
+    }
+  ],
+  "layers": [
+    {
+      "id": "batten",
+      "description": "Click-on batten",
+      "memberType": "batten",
+      "product": "TBC-BATTEN",
+      "alternativeProducts": [],
+      "enabled": true,
+      "fixings": {
+        "type": null,
+        "substrate": null,
+        "countPerConnection": null,
+        "productCode": null
+      },
+      "heightAboveFcl": null,
+      "generator": "line-array",
+      "orientation": "primary",
+      "maxSpacing": null,
+      "module": null,
+      "maxFromWall": null,
+      "minSegmentLength": null,
+      "supportedBy": "click_rail",
+      "maxEndOverhang": null,
+      "splitAtCrossingsWith": null
+    },
+    {
+      "id": "click_rail",
+      "description": "Click-on rail carrying the battens",
+      "memberType": "rail",
+      "product": "TBC-CLICKRAIL",
+      "alternativeProducts": [],
+      "enabled": true,
+      "fixings": {
+        "type": null,
+        "substrate": null,
+        "countPerConnection": null,
+        "productCode": null
+      },
+      "heightAboveFcl": null,
+      "generator": "line-array",
+      "orientation": "secondary",
+      "maxSpacing": null,
+      "module": null,
+      "maxFromWall": null,
+      "minSegmentLength": null,
+      "supportedBy": null,
+      "maxEndOverhang": null,
+      "splitAtCrossingsWith": null
+    },
+    {
+      "id": "bracket",
+      "description": "Bracket fixing the rail to the structure",
+      "memberType": "bracket",
+      "product": "TBC-BRACKET",
+      "alternativeProducts": [],
+      "enabled": true,
+      "fixings": {
+        "type": null,
+        "substrate": null,
+        "countPerConnection": null,
+        "productCode": null
+      },
+      "heightAboveFcl": null,
+      "generator": "along-member",
+      "along": "click_rail",
+      "maxSpacing": null,
+      "firstFromEnd": null,
+      "atCrossingsWith": null
+    },
+    {
+      "id": "edge_trim",
+      "description": "Edge trim",
+      "memberType": "trim",
+      "product": "TBC-TRIM",
+      "alternativeProducts": [],
+      "enabled": true,
+      "fixings": {
+        "type": null,
+        "substrate": null,
+        "countPerConnection": null,
+        "productCode": null
+      },
+      "heightAboveFcl": null,
+      "generator": "perimeter",
+      "cornerTreatment": "mitre",
+      "fixingCentres": null,
+      "firstFixingFromCorner": null,
+      "followHoles": true
+    }
+  ],
+  "penetration": {
+    "trimAboveArea": null,
+    "trimAboveWidth": null,
+    "clearance": null,
+    "trimmerLayer": "click_rail",
+    "doubleAboveWidth": null,
+    "hangerAtTrimmerEnds": true,
+    "minClearOfMember": null
+  },
+  "buildUp": {
+    "liningThickness": null,
+    "systemDepth": null,
+    "minHangerDrop": null,
+    "maxHangerDrop": null
+  },
+  "optimisation": {
+    "stockLengths": null,
+    "kerf": null,
+    "minReusableOffcut": null
+  },
+  "citations": {}
+}

@@ -1,0 +1,330 @@
+{
+  "system": "rondo_keylock",
+  "name": "Rondo KEY-LOCK concealed suspended ceiling",
+  "version": "2026.1",
+  "status": "skeleton",
+  "units": "mm",
+  "manufacturer": "Rondo Building Services",
+  "source": {
+    "source": "Rondo Design Manual (revision to be confirmed by the user)",
+    "reference": null,
+    "revision": null,
+    "date": null,
+    "enteredBy": null,
+    "enteredAt": null
+  },
+  "notes": "Skeleton pack. Every spacing, span and load figure is null and must be entered from the current manufacturer literature, with the document and revision recorded against each value. The engine will not generate a layer whose required figures are blank - it raises an issue naming the value instead. Nothing in this pack has been checked against any published table.",
+  "catalogue": [
+    {
+      "code": "129",
+      "description": "129 steel channel - top cross rail or furring channel",
+      "roles": [
+        "tsr",
+        "furring"
+      ],
+      "stockLengths": null,
+      "massPerMetre": null,
+      "depth": null,
+      "width": null,
+      "packQuantity": null
+    },
+    {
+      "code": "130",
+      "description": "130 steel channel - top cross rail",
+      "roles": [
+        "tsr"
+      ],
+      "stockLengths": null,
+      "massPerMetre": null,
+      "depth": null,
+      "width": null,
+      "packQuantity": null
+    },
+    {
+      "code": "308",
+      "description": "308 furring channel",
+      "roles": [
+        "furring"
+      ],
+      "stockLengths": null,
+      "massPerMetre": null,
+      "depth": null,
+      "width": null,
+      "packQuantity": null
+    },
+    {
+      "code": "TBC-CLIP",
+      "description": "KEY-LOCK clip joining furring channel to top cross rail - to be entered from the manufacturer literature",
+      "roles": [
+        "bracket"
+      ],
+      "stockLengths": null,
+      "massPerMetre": null,
+      "depth": null,
+      "width": null,
+      "packQuantity": null
+    },
+    {
+      "code": "TBC-ROD",
+      "description": "Suspension rod or strap hanger - to be entered from the manufacturer literature",
+      "roles": [
+        "hanger"
+      ],
+      "stockLengths": null,
+      "massPerMetre": null,
+      "depth": null,
+      "width": null,
+      "packQuantity": null
+    },
+    {
+      "code": "TBC-ANGLE",
+      "description": "Perimeter wall angle - to be entered from the manufacturer literature",
+      "roles": [
+        "trim"
+      ],
+      "stockLengths": null,
+      "massPerMetre": null,
+      "depth": null,
+      "width": null,
+      "packQuantity": null
+    },
+    {
+      "code": "TBC-BRACE",
+      "description": "Lateral brace - to be entered from the manufacturer literature",
+      "roles": [
+        "brace"
+      ],
+      "stockLengths": null,
+      "massPerMetre": null,
+      "depth": null,
+      "width": null,
+      "packQuantity": null
+    }
+  ],
+  "loadCases": [
+    {
+      "id": "13mm_plasterboard",
+      "description": "Single layer 13mm plasterboard",
+      "lining": "13mm plasterboard",
+      "massPerSquareMetre": null,
+      "limits": [
+        {
+          "layerId": "furring",
+          "maxSpacing": null,
+          "maxSpan": null
+        },
+        {
+          "layerId": "tsr",
+          "maxSpacing": null,
+          "maxSpan": null
+        },
+        {
+          "layerId": "hanger",
+          "maxSpacing": null,
+          "maxSpan": null
+        }
+      ]
+    },
+    {
+      "id": "2x13mm_plasterboard",
+      "description": "Two layers of 13mm plasterboard",
+      "lining": "2 x 13mm plasterboard",
+      "massPerSquareMetre": null,
+      "limits": [
+        {
+          "layerId": "furring",
+          "maxSpacing": null,
+          "maxSpan": null
+        },
+        {
+          "layerId": "tsr",
+          "maxSpacing": null,
+          "maxSpan": null
+        },
+        {
+          "layerId": "hanger",
+          "maxSpacing": null,
+          "maxSpan": null
+        }
+      ]
+    },
+    {
+      "id": "13mm_plus_insulation",
+      "description": "13mm plasterboard with insulation over",
+      "lining": "13mm plasterboard + insulation",
+      "massPerSquareMetre": null,
+      "limits": [
+        {
+          "layerId": "furring",
+          "maxSpacing": null,
+          "maxSpan": null
+        },
+        {
+          "layerId": "tsr",
+          "maxSpacing": null,
+          "maxSpan": null
+        },
+        {
+          "layerId": "hanger",
+          "maxSpacing": null,
+          "maxSpan": null
+        }
+      ]
+    }
+  ],
+  "layers": [
+    {
+      "id": "furring",
+      "description": "Furring channel carrying the lining",
+      "memberType": "furring",
+      "product": "308",
+      "alternativeProducts": [
+        "129"
+      ],
+      "enabled": true,
+      "fixings": {
+        "type": null,
+        "substrate": null,
+        "countPerConnection": null,
+        "productCode": null
+      },
+      "heightAboveFcl": null,
+      "generator": "line-array",
+      "orientation": "primary",
+      "maxSpacing": null,
+      "module": null,
+      "maxFromWall": null,
+      "minSegmentLength": null,
+      "supportedBy": "tsr",
+      "maxEndOverhang": null,
+      "splitAtCrossingsWith": null
+    },
+    {
+      "id": "tsr",
+      "description": "Top cross rail carrying the furring channels",
+      "memberType": "tsr",
+      "product": "129",
+      "alternativeProducts": [
+        "130"
+      ],
+      "enabled": true,
+      "fixings": {
+        "type": null,
+        "substrate": null,
+        "countPerConnection": null,
+        "productCode": null
+      },
+      "heightAboveFcl": null,
+      "generator": "line-array",
+      "orientation": "secondary",
+      "maxSpacing": null,
+      "module": null,
+      "maxFromWall": null,
+      "minSegmentLength": null,
+      "supportedBy": null,
+      "maxEndOverhang": null,
+      "splitAtCrossingsWith": null
+    },
+    {
+      "id": "clip",
+      "description": "KEY-LOCK clip at every furring-to-TSR crossing",
+      "memberType": "bracket",
+      "product": "TBC-CLIP",
+      "alternativeProducts": [],
+      "enabled": true,
+      "fixings": {
+        "type": null,
+        "substrate": null,
+        "countPerConnection": null,
+        "productCode": null
+      },
+      "heightAboveFcl": null,
+      "generator": "along-member",
+      "along": "furring",
+      "maxSpacing": null,
+      "firstFromEnd": null,
+      "atCrossingsWith": "tsr"
+    },
+    {
+      "id": "hanger",
+      "description": "Hanger from the structure to the top cross rail",
+      "memberType": "hanger",
+      "product": "TBC-ROD",
+      "alternativeProducts": [],
+      "enabled": true,
+      "fixings": {
+        "type": null,
+        "substrate": null,
+        "countPerConnection": null,
+        "productCode": null
+      },
+      "heightAboveFcl": null,
+      "generator": "along-member",
+      "along": "tsr",
+      "maxSpacing": null,
+      "firstFromEnd": null,
+      "atCrossingsWith": null
+    },
+    {
+      "id": "wall_angle",
+      "description": "Perimeter wall angle",
+      "memberType": "trim",
+      "product": "TBC-ANGLE",
+      "alternativeProducts": [],
+      "enabled": true,
+      "fixings": {
+        "type": null,
+        "substrate": null,
+        "countPerConnection": null,
+        "productCode": null
+      },
+      "heightAboveFcl": null,
+      "generator": "perimeter",
+      "cornerTreatment": "mitre",
+      "fixingCentres": null,
+      "firstFixingFromCorner": null,
+      "followHoles": true
+    },
+    {
+      "id": "brace",
+      "description": "Lateral bracing where required",
+      "memberType": "brace",
+      "product": "TBC-BRACE",
+      "alternativeProducts": [],
+      "enabled": false,
+      "fixings": {
+        "type": null,
+        "substrate": null,
+        "countPerConnection": null,
+        "productCode": null
+      },
+      "heightAboveFcl": null,
+      "generator": "brace",
+      "gridSpacing": null,
+      "maxFromWall": null,
+      "angleFromVertical": null,
+      "minDropToRequire": null
+    }
+  ],
+  "penetration": {
+    "trimAboveArea": null,
+    "trimAboveWidth": null,
+    "clearance": null,
+    "trimmerLayer": "furring",
+    "doubleAboveWidth": null,
+    "hangerAtTrimmerEnds": true,
+    "minClearOfMember": null
+  },
+  "buildUp": {
+    "liningThickness": null,
+    "systemDepth": null,
+    "minHangerDrop": null,
+    "maxHangerDrop": null
+  },
+  "optimisation": {
+    "stockLengths": null,
+    "kerf": null,
+    "minReusableOffcut": null
+  },
+  "citations": {}
+}

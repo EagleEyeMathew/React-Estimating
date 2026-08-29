@@ -1,0 +1,176 @@
+{
+  "system": "rondo_furring_directfix",
+  "name": "Rondo furring channel direct fix / battens",
+  "version": "2026.1",
+  "status": "skeleton",
+  "units": "mm",
+  "manufacturer": "Rondo Building Services",
+  "source": {
+    "source": "Rondo Design Manual (revision to be confirmed by the user)",
+    "reference": null,
+    "revision": null,
+    "date": null,
+    "enteredBy": null,
+    "enteredAt": null
+  },
+  "notes": "Skeleton pack. Every spacing, span and load figure is null and must be entered from the current manufacturer literature, with the document and revision recorded against each value. The engine will not generate a layer whose required figures are blank - it raises an issue naming the value instead. Nothing in this pack has been checked against any published table. Direct fix has no suspension layer: every furring channel bears directly on the structure, so the structure spacing above governs the setout.",
+  "catalogue": [
+    {
+      "code": "308",
+      "description": "308 furring channel",
+      "roles": [
+        "furring"
+      ],
+      "stockLengths": null,
+      "massPerMetre": null,
+      "depth": null,
+      "width": null,
+      "packQuantity": null
+    },
+    {
+      "code": "129",
+      "description": "129 steel channel",
+      "roles": [
+        "furring"
+      ],
+      "stockLengths": null,
+      "massPerMetre": null,
+      "depth": null,
+      "width": null,
+      "packQuantity": null
+    },
+    {
+      "code": "TBC-DIRECTCLIP",
+      "description": "Direct fix clip - to be entered from the manufacturer literature",
+      "roles": [
+        "bracket"
+      ],
+      "stockLengths": null,
+      "massPerMetre": null,
+      "depth": null,
+      "width": null,
+      "packQuantity": null
+    },
+    {
+      "code": "TBC-ANGLE",
+      "description": "Perimeter wall angle - to be entered from the manufacturer literature",
+      "roles": [
+        "trim"
+      ],
+      "stockLengths": null,
+      "massPerMetre": null,
+      "depth": null,
+      "width": null,
+      "packQuantity": null
+    }
+  ],
+  "loadCases": [
+    {
+      "id": "13mm_plasterboard",
+      "description": "Single layer 13mm plasterboard",
+      "lining": "13mm plasterboard",
+      "massPerSquareMetre": null,
+      "limits": [
+        {
+          "layerId": "furring",
+          "maxSpacing": null,
+          "maxSpan": null
+        },
+        {
+          "layerId": "clip",
+          "maxSpacing": null,
+          "maxSpan": null
+        }
+      ]
+    }
+  ],
+  "layers": [
+    {
+      "id": "furring",
+      "description": "Furring channel fixed direct to the structure",
+      "memberType": "furring",
+      "product": "308",
+      "alternativeProducts": [
+        "129"
+      ],
+      "enabled": true,
+      "fixings": {
+        "type": null,
+        "substrate": null,
+        "countPerConnection": null,
+        "productCode": null
+      },
+      "heightAboveFcl": null,
+      "generator": "line-array",
+      "orientation": "primary",
+      "maxSpacing": null,
+      "module": null,
+      "maxFromWall": null,
+      "minSegmentLength": null,
+      "supportedBy": null,
+      "maxEndOverhang": null,
+      "splitAtCrossingsWith": null
+    },
+    {
+      "id": "clip",
+      "description": "Direct fix clip",
+      "memberType": "bracket",
+      "product": "TBC-DIRECTCLIP",
+      "alternativeProducts": [],
+      "enabled": true,
+      "fixings": {
+        "type": null,
+        "substrate": null,
+        "countPerConnection": null,
+        "productCode": null
+      },
+      "heightAboveFcl": null,
+      "generator": "along-member",
+      "along": "furring",
+      "maxSpacing": null,
+      "firstFromEnd": null,
+      "atCrossingsWith": null
+    },
+    {
+      "id": "wall_angle",
+      "description": "Perimeter wall angle",
+      "memberType": "trim",
+      "product": "TBC-ANGLE",
+      "alternativeProducts": [],
+      "enabled": true,
+      "fixings": {
+        "type": null,
+        "substrate": null,
+        "countPerConnection": null,
+        "productCode": null
+      },
+      "heightAboveFcl": null,
+      "generator": "perimeter",
+      "cornerTreatment": "mitre",
+      "fixingCentres": null,
+      "firstFixingFromCorner": null,
+      "followHoles": true
+    }
+  ],
+  "penetration": {
+    "trimAboveArea": null,
+    "trimAboveWidth": null,
+    "clearance": null,
+    "trimmerLayer": "furring",
+    "doubleAboveWidth": null,
+    "hangerAtTrimmerEnds": true,
+    "minClearOfMember": null
+  },
+  "buildUp": {
+    "liningThickness": null,
+    "systemDepth": null,
+    "minHangerDrop": null,
+    "maxHangerDrop": null
+  },
+  "optimisation": {
+    "stockLengths": null,
+    "kerf": null,
+    "minReusableOffcut": null
+  },
+  "citations": {}
+}

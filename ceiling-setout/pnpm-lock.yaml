@@ -24,6 +24,12 @@ importers:
         specifier: ^6.4.2
         version: 6.4.2
 
+  packages/rules:
+    dependencies:
+      zod:
+        specifier: ^3.24.1
+        version: 3.25.76
+
 packages:
 
   '@esbuild/aix-ppc64@0.21.5':
@@ -537,6 +543,9 @@ packages:
     engines: {node: '>=8'}
     hasBin: true
 
+  zod@3.25.76:
+    resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
+
 snapshots:
 
   '@esbuild/aix-ppc64@0.21.5':
@@ -935,3 +944,5 @@ snapshots:
     dependencies:
       siginfo: 2.0.0
       stackback: 0.0.2
+
+  zod@3.25.76: {}

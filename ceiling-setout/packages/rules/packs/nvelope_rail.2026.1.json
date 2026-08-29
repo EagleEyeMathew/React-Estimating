@@ -1,0 +1,226 @@
+{
+  "system": "nvelope_rail",
+  "name": "Nvelope bracket and rail subframe",
+  "version": "2026.1",
+  "status": "skeleton",
+  "units": "mm",
+  "manufacturer": "Nvelope",
+  "source": {
+    "source": "Nvelope system technical literature (to be nominated by the user)",
+    "reference": null,
+    "revision": null,
+    "date": null,
+    "enteredBy": null,
+    "enteredAt": null
+  },
+  "notes": "Skeleton pack. Every spacing, span and load figure is null and must be entered from the current manufacturer literature, with the document and revision recorded against each value. The engine will not generate a layer whose required figures are blank - it raises an issue naming the value instead. Nothing in this pack has been checked against any published table. Bracket spacing is governed by the rail span and by the fixing capacity into the substrate, both of which are project specific.",
+  "catalogue": [
+    {
+      "code": "TBC-BRACKET",
+      "description": "Helping-hand bracket - to be entered from the manufacturer literature",
+      "roles": [
+        "bracket"
+      ],
+      "stockLengths": null,
+      "massPerMetre": null,
+      "depth": null,
+      "width": null,
+      "packQuantity": null
+    },
+    {
+      "code": "TBC-RAIL-V",
+      "description": "Vertical rail - to be entered from the manufacturer literature",
+      "roles": [
+        "rail"
+      ],
+      "stockLengths": null,
+      "massPerMetre": null,
+      "depth": null,
+      "width": null,
+      "packQuantity": null
+    },
+    {
+      "code": "TBC-RAIL-H",
+      "description": "Horizontal rail - to be entered from the manufacturer literature",
+      "roles": [
+        "rail"
+      ],
+      "stockLengths": null,
+      "massPerMetre": null,
+      "depth": null,
+      "width": null,
+      "packQuantity": null
+    },
+    {
+      "code": "TBC-TRIM",
+      "description": "Edge trim - to be entered from the manufacturer literature",
+      "roles": [
+        "trim"
+      ],
+      "stockLengths": null,
+      "massPerMetre": null,
+      "depth": null,
+      "width": null,
+      "packQuantity": null
+    }
+  ],
+  "loadCases": [
+    {
+      "id": "cladding",
+      "description": "Sheet cladding",
+      "lining": "cladding panel",
+      "massPerSquareMetre": null,
+      "limits": [
+        {
+          "layerId": "primary_rail",
+          "maxSpacing": null,
+          "maxSpan": null
+        },
+        {
+          "layerId": "secondary_rail",
+          "maxSpacing": null,
+          "maxSpan": null
+        },
+        {
+          "layerId": "bracket",
+          "maxSpacing": null,
+          "maxSpan": null
+        }
+      ]
+    },
+    {
+      "id": "battens",
+      "description": "Timber or aluminium battens",
+      "lining": "batten",
+      "massPerSquareMetre": null,
+      "limits": [
+        {
+          "layerId": "primary_rail",
+          "maxSpacing": null,
+          "maxSpan": null
+        },
+        {
+          "layerId": "secondary_rail",
+          "maxSpacing": null,
+          "maxSpan": null
+        },
+        {
+          "layerId": "bracket",
+          "maxSpacing": null,
+          "maxSpan": null
+        }
+      ]
+    }
+  ],
+  "layers": [
+    {
+      "id": "primary_rail",
+      "description": "Primary rail",
+      "memberType": "rail",
+      "product": "TBC-RAIL-V",
+      "alternativeProducts": [],
+      "enabled": true,
+      "fixings": {
+        "type": null,
+        "substrate": null,
+        "countPerConnection": null,
+        "productCode": null
+      },
+      "heightAboveFcl": null,
+      "generator": "line-array",
+      "orientation": "primary",
+      "maxSpacing": null,
+      "module": null,
+      "maxFromWall": null,
+      "minSegmentLength": null,
+      "supportedBy": null,
+      "maxEndOverhang": null,
+      "splitAtCrossingsWith": null
+    },
+    {
+      "id": "secondary_rail",
+      "description": "Secondary rail",
+      "memberType": "rail",
+      "product": "TBC-RAIL-H",
+      "alternativeProducts": [],
+      "enabled": false,
+      "fixings": {
+        "type": null,
+        "substrate": null,
+        "countPerConnection": null,
+        "productCode": null
+      },
+      "heightAboveFcl": null,
+      "generator": "line-array",
+      "orientation": "secondary",
+      "maxSpacing": null,
+      "module": null,
+      "maxFromWall": null,
+      "minSegmentLength": null,
+      "supportedBy": "primary_rail",
+      "maxEndOverhang": null,
+      "splitAtCrossingsWith": null
+    },
+    {
+      "id": "bracket",
+      "description": "Helping-hand bracket fixing the rail to the structure",
+      "memberType": "bracket",
+      "product": "TBC-BRACKET",
+      "alternativeProducts": [],
+      "enabled": true,
+      "fixings": {
+        "type": null,
+        "substrate": null,
+        "countPerConnection": null,
+        "productCode": null
+      },
+      "heightAboveFcl": null,
+      "generator": "along-member",
+      "along": "primary_rail",
+      "maxSpacing": null,
+      "firstFromEnd": null,
+      "atCrossingsWith": null
+    },
+    {
+      "id": "edge_trim",
+      "description": "Edge trim",
+      "memberType": "trim",
+      "product": "TBC-TRIM",
+      "alternativeProducts": [],
+      "enabled": true,
+      "fixings": {
+        "type": null,
+        "substrate": null,
+        "countPerConnection": null,
+        "productCode": null
+      },
+      "heightAboveFcl": null,
+      "generator": "perimeter",
+      "cornerTreatment": "mitre",
+      "fixingCentres": null,
+      "firstFixingFromCorner": null,
+      "followHoles": true
+    }
+  ],
+  "penetration": {
+    "trimAboveArea": null,
+    "trimAboveWidth": null,
+    "clearance": null,
+    "trimmerLayer": "secondary_rail",
+    "doubleAboveWidth": null,
+    "hangerAtTrimmerEnds": true,
+    "minClearOfMember": null
+  },
+  "buildUp": {
+    "liningThickness": null,
+    "systemDepth": null,
+    "minHangerDrop": null,
+    "maxHangerDrop": null
+  },
+  "optimisation": {
+    "stockLengths": null,
+    "kerf": null,
+    "minReusableOffcut": null
+  },
+  "citations": {}
+}

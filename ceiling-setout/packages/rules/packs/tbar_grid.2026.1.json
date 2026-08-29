@@ -1,0 +1,272 @@
+{
+  "system": "tbar_grid",
+  "name": "Exposed T-bar suspended grid",
+  "version": "2026.1",
+  "status": "skeleton",
+  "units": "mm",
+  "manufacturer": null,
+  "source": {
+    "source": "Grid manufacturer's technical literature (to be nominated by the user)",
+    "reference": null,
+    "revision": null,
+    "date": null,
+    "enteredBy": null,
+    "enteredAt": null
+  },
+  "notes": "Skeleton pack. Every spacing, span and load figure is null and must be entered from the current manufacturer literature, with the document and revision recorded against each value. The engine will not generate a layer whose required figures are blank - it raises an issue naming the value instead. Nothing in this pack has been checked against any published table. Tile module is a setting-out module, not a span: it is entered on the layer as a fixed module so the engine will not quietly reduce it to satisfy a span limit.",
+  "catalogue": [
+    {
+      "code": "TBC-MAIN",
+      "description": "Main tee - to be entered from the manufacturer literature",
+      "roles": [
+        "main_tee"
+      ],
+      "stockLengths": null,
+      "massPerMetre": null,
+      "depth": null,
+      "width": null,
+      "packQuantity": null
+    },
+    {
+      "code": "TBC-CROSS-1200",
+      "description": "1200 cross tee - to be entered from the manufacturer literature",
+      "roles": [
+        "cross_tee"
+      ],
+      "stockLengths": null,
+      "massPerMetre": null,
+      "depth": null,
+      "width": null,
+      "packQuantity": null
+    },
+    {
+      "code": "TBC-CROSS-600",
+      "description": "600 cross tee - to be entered from the manufacturer literature",
+      "roles": [
+        "cross_tee"
+      ],
+      "stockLengths": null,
+      "massPerMetre": null,
+      "depth": null,
+      "width": null,
+      "packQuantity": null
+    },
+    {
+      "code": "TBC-WIRE",
+      "description": "Suspension wire or rod - to be entered from the manufacturer literature",
+      "roles": [
+        "hanger"
+      ],
+      "stockLengths": null,
+      "massPerMetre": null,
+      "depth": null,
+      "width": null,
+      "packQuantity": null
+    },
+    {
+      "code": "TBC-PERIM",
+      "description": "Perimeter angle or shadowline trim - to be entered from the manufacturer literature",
+      "roles": [
+        "trim"
+      ],
+      "stockLengths": null,
+      "massPerMetre": null,
+      "depth": null,
+      "width": null,
+      "packQuantity": null
+    }
+  ],
+  "loadCases": [
+    {
+      "id": "standard_tile",
+      "description": "Standard mineral fibre tile",
+      "lining": "mineral fibre tile",
+      "massPerSquareMetre": null,
+      "limits": [
+        {
+          "layerId": "main_tee",
+          "maxSpacing": null,
+          "maxSpan": null
+        },
+        {
+          "layerId": "cross_tee_1200",
+          "maxSpacing": null,
+          "maxSpan": null
+        },
+        {
+          "layerId": "cross_tee_600",
+          "maxSpacing": null,
+          "maxSpan": null
+        },
+        {
+          "layerId": "hanger",
+          "maxSpacing": null,
+          "maxSpan": null
+        }
+      ]
+    },
+    {
+      "id": "heavy_tile",
+      "description": "Heavy tile or integrated services",
+      "lining": "heavy tile",
+      "massPerSquareMetre": null,
+      "limits": [
+        {
+          "layerId": "main_tee",
+          "maxSpacing": null,
+          "maxSpan": null
+        },
+        {
+          "layerId": "cross_tee_1200",
+          "maxSpacing": null,
+          "maxSpan": null
+        },
+        {
+          "layerId": "cross_tee_600",
+          "maxSpacing": null,
+          "maxSpan": null
+        },
+        {
+          "layerId": "hanger",
+          "maxSpacing": null,
+          "maxSpan": null
+        }
+      ]
+    }
+  ],
+  "layers": [
+    {
+      "id": "main_tee",
+      "description": "Main tee",
+      "memberType": "main_tee",
+      "product": "TBC-MAIN",
+      "alternativeProducts": [],
+      "enabled": true,
+      "fixings": {
+        "type": null,
+        "substrate": null,
+        "countPerConnection": null,
+        "productCode": null
+      },
+      "heightAboveFcl": null,
+      "generator": "line-array",
+      "orientation": "primary",
+      "maxSpacing": null,
+      "module": null,
+      "maxFromWall": null,
+      "minSegmentLength": null,
+      "supportedBy": null,
+      "maxEndOverhang": null,
+      "splitAtCrossingsWith": null
+    },
+    {
+      "id": "cross_tee_1200",
+      "description": "1200 cross tee between main tees",
+      "memberType": "cross_tee",
+      "product": "TBC-CROSS-1200",
+      "alternativeProducts": [],
+      "enabled": true,
+      "fixings": {
+        "type": null,
+        "substrate": null,
+        "countPerConnection": null,
+        "productCode": null
+      },
+      "heightAboveFcl": null,
+      "generator": "line-array",
+      "orientation": "secondary",
+      "maxSpacing": null,
+      "module": null,
+      "maxFromWall": null,
+      "minSegmentLength": null,
+      "supportedBy": "main_tee",
+      "maxEndOverhang": null,
+      "splitAtCrossingsWith": "main_tee"
+    },
+    {
+      "id": "cross_tee_600",
+      "description": "600 cross tee splitting the tile module",
+      "memberType": "cross_tee",
+      "product": "TBC-CROSS-600",
+      "alternativeProducts": [],
+      "enabled": false,
+      "fixings": {
+        "type": null,
+        "substrate": null,
+        "countPerConnection": null,
+        "productCode": null
+      },
+      "heightAboveFcl": null,
+      "generator": "line-array",
+      "orientation": "primary",
+      "maxSpacing": null,
+      "module": null,
+      "maxFromWall": null,
+      "minSegmentLength": null,
+      "supportedBy": "cross_tee_1200",
+      "maxEndOverhang": null,
+      "splitAtCrossingsWith": "cross_tee_1200"
+    },
+    {
+      "id": "hanger",
+      "description": "Suspension wire along the main tee",
+      "memberType": "hanger",
+      "product": "TBC-WIRE",
+      "alternativeProducts": [],
+      "enabled": true,
+      "fixings": {
+        "type": null,
+        "substrate": null,
+        "countPerConnection": null,
+        "productCode": null
+      },
+      "heightAboveFcl": null,
+      "generator": "along-member",
+      "along": "main_tee",
+      "maxSpacing": null,
+      "firstFromEnd": null,
+      "atCrossingsWith": null
+    },
+    {
+      "id": "perimeter_angle",
+      "description": "Perimeter angle or shadowline",
+      "memberType": "trim",
+      "product": "TBC-PERIM",
+      "alternativeProducts": [],
+      "enabled": true,
+      "fixings": {
+        "type": null,
+        "substrate": null,
+        "countPerConnection": null,
+        "productCode": null
+      },
+      "heightAboveFcl": null,
+      "generator": "perimeter",
+      "cornerTreatment": "mitre",
+      "fixingCentres": null,
+      "firstFixingFromCorner": null,
+      "followHoles": true
+    }
+  ],
+  "penetration": {
+    "trimAboveArea": null,
+    "trimAboveWidth": null,
+    "clearance": null,
+    "trimmerLayer": "cross_tee_1200",
+    "doubleAboveWidth": null,
+    "hangerAtTrimmerEnds": true,
+    "minClearOfMember": null
+  },
+  "buildUp": {
+    "liningThickness": null,
+    "systemDepth": null,
+    "minHangerDrop": null,
+    "maxHangerDrop": null
+  },
+  "optimisation": {
+    "stockLengths": null,
+    "kerf": null,
+    "minReusableOffcut": null
+  },
+  "citations": {}
+}

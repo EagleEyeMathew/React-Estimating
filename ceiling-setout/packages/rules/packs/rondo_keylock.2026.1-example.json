@@ -1,0 +1,823 @@
+{
+  "system": "rondo_keylock",
+  "name": "Rondo KEY-LOCK concealed suspended ceiling (EXAMPLE VALUES)",
+  "version": "2026.1-example",
+  "status": "example",
+  "units": "mm",
+  "manufacturer": "Rondo Building Services",
+  "source": {
+    "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+    "reference": "none",
+    "revision": "n/a",
+    "date": null,
+    "enteredBy": "fixture generator",
+    "enteredAt": null
+  },
+  "notes": "EXAMPLE PACK - THE NUMBERS IN THIS FILE ARE INVENTED. They exist so the test suite and the demo project have something to generate from, and so the shape of a completed pack is visible next to the skeleton. They are not taken from any manufacturer table and must never be used on a real project. Every output generated from this pack is watermarked accordingly.",
+  "catalogue": [
+    {
+      "code": "129",
+      "description": "129 steel channel - top cross rail or furring channel",
+      "roles": [
+        "tsr",
+        "furring"
+      ],
+      "stockLengths": [
+        3600,
+        4800,
+        6000
+      ],
+      "massPerMetre": 0.9,
+      "depth": 38,
+      "width": 40,
+      "packQuantity": null
+    },
+    {
+      "code": "130",
+      "description": "130 steel channel - top cross rail",
+      "roles": [
+        "tsr"
+      ],
+      "stockLengths": [
+        3600,
+        4800,
+        6000
+      ],
+      "massPerMetre": 1.2,
+      "depth": 50,
+      "width": 40,
+      "packQuantity": null
+    },
+    {
+      "code": "308",
+      "description": "308 furring channel",
+      "roles": [
+        "furring"
+      ],
+      "stockLengths": [
+        3600,
+        4800,
+        6000
+      ],
+      "massPerMetre": 0.7,
+      "depth": 16,
+      "width": 35,
+      "packQuantity": null
+    },
+    {
+      "code": "TBC-CLIP",
+      "description": "KEY-LOCK clip joining furring channel to top cross rail - to be entered from the manufacturer literature",
+      "roles": [
+        "bracket"
+      ],
+      "stockLengths": null,
+      "massPerMetre": null,
+      "depth": null,
+      "width": null,
+      "packQuantity": null
+    },
+    {
+      "code": "TBC-ROD",
+      "description": "Suspension rod or strap hanger - to be entered from the manufacturer literature",
+      "roles": [
+        "hanger"
+      ],
+      "stockLengths": [
+        3000
+      ],
+      "massPerMetre": 0.3,
+      "depth": null,
+      "width": null,
+      "packQuantity": null
+    },
+    {
+      "code": "TBC-ANGLE",
+      "description": "Perimeter wall angle - to be entered from the manufacturer literature",
+      "roles": [
+        "trim"
+      ],
+      "stockLengths": [
+        3000
+      ],
+      "massPerMetre": null,
+      "depth": null,
+      "width": null,
+      "packQuantity": null
+    },
+    {
+      "code": "TBC-BRACE",
+      "description": "Lateral brace - to be entered from the manufacturer literature",
+      "roles": [
+        "brace"
+      ],
+      "stockLengths": null,
+      "massPerMetre": null,
+      "depth": null,
+      "width": null,
+      "packQuantity": null
+    }
+  ],
+  "loadCases": [
+    {
+      "id": "13mm_plasterboard",
+      "description": "Single layer 13mm plasterboard",
+      "lining": "13mm plasterboard",
+      "massPerSquareMetre": 12,
+      "limits": [
+        {
+          "layerId": "furring",
+          "maxSpacing": 450,
+          "maxSpan": 1200
+        },
+        {
+          "layerId": "tsr",
+          "maxSpacing": 1200,
+          "maxSpan": 1500
+        },
+        {
+          "layerId": "hanger",
+          "maxSpacing": 1200,
+          "maxSpan": null
+        }
+      ]
+    },
+    {
+      "id": "2x13mm_plasterboard",
+      "description": "Two layers of 13mm plasterboard",
+      "lining": "2 x 13mm plasterboard",
+      "massPerSquareMetre": 23,
+      "limits": [
+        {
+          "layerId": "furring",
+          "maxSpacing": 400,
+          "maxSpan": 900
+        },
+        {
+          "layerId": "tsr",
+          "maxSpacing": 1200,
+          "maxSpan": 1200
+        },
+        {
+          "layerId": "hanger",
+          "maxSpacing": 900,
+          "maxSpan": null
+        }
+      ]
+    },
+    {
+      "id": "13mm_plus_insulation",
+      "description": "13mm plasterboard with insulation over",
+      "lining": "13mm plasterboard + insulation",
+      "massPerSquareMetre": 16,
+      "limits": [
+        {
+          "layerId": "furring",
+          "maxSpacing": 450,
+          "maxSpan": 1050
+        },
+        {
+          "layerId": "tsr",
+          "maxSpacing": 1050,
+          "maxSpan": 1350
+        },
+        {
+          "layerId": "hanger",
+          "maxSpacing": 1050,
+          "maxSpan": null
+        }
+      ]
+    }
+  ],
+  "layers": [
+    {
+      "id": "furring",
+      "description": "Furring channel carrying the lining",
+      "memberType": "furring",
+      "product": "308",
+      "alternativeProducts": [
+        "129"
+      ],
+      "enabled": true,
+      "fixings": {
+        "type": "as scheduled",
+        "substrate": "concrete soffit",
+        "countPerConnection": 1,
+        "productCode": null
+      },
+      "heightAboveFcl": 13,
+      "generator": "line-array",
+      "orientation": "primary",
+      "maxSpacing": 450,
+      "module": null,
+      "maxFromWall": 150,
+      "minSegmentLength": 300,
+      "supportedBy": "tsr",
+      "maxEndOverhang": 150,
+      "splitAtCrossingsWith": null
+    },
+    {
+      "id": "tsr",
+      "description": "Top cross rail carrying the furring channels",
+      "memberType": "tsr",
+      "product": "129",
+      "alternativeProducts": [
+        "130"
+      ],
+      "enabled": true,
+      "fixings": {
+        "type": "as scheduled",
+        "substrate": "concrete soffit",
+        "countPerConnection": 1,
+        "productCode": null
+      },
+      "heightAboveFcl": 29,
+      "generator": "line-array",
+      "orientation": "secondary",
+      "maxSpacing": 1200,
+      "module": null,
+      "maxFromWall": 150,
+      "minSegmentLength": 400,
+      "supportedBy": null,
+      "maxEndOverhang": 150,
+      "splitAtCrossingsWith": null
+    },
+    {
+      "id": "clip",
+      "description": "KEY-LOCK clip at every furring-to-TSR crossing",
+      "memberType": "bracket",
+      "product": "TBC-CLIP",
+      "alternativeProducts": [],
+      "enabled": true,
+      "fixings": {
+        "type": "as scheduled",
+        "substrate": "concrete soffit",
+        "countPerConnection": 1,
+        "productCode": null
+      },
+      "heightAboveFcl": null,
+      "generator": "along-member",
+      "along": "furring",
+      "maxSpacing": 1200,
+      "firstFromEnd": 150,
+      "atCrossingsWith": "tsr"
+    },
+    {
+      "id": "hanger",
+      "description": "Hanger from the structure to the top cross rail",
+      "memberType": "hanger",
+      "product": "TBC-ROD",
+      "alternativeProducts": [],
+      "enabled": true,
+      "fixings": {
+        "type": "as scheduled",
+        "substrate": "concrete soffit",
+        "countPerConnection": 1,
+        "productCode": null
+      },
+      "heightAboveFcl": null,
+      "generator": "along-member",
+      "along": "tsr",
+      "maxSpacing": 1200,
+      "firstFromEnd": 150,
+      "atCrossingsWith": null
+    },
+    {
+      "id": "wall_angle",
+      "description": "Perimeter wall angle",
+      "memberType": "trim",
+      "product": "TBC-ANGLE",
+      "alternativeProducts": [],
+      "enabled": true,
+      "fixings": {
+        "type": "as scheduled",
+        "substrate": "concrete soffit",
+        "countPerConnection": 1,
+        "productCode": null
+      },
+      "heightAboveFcl": null,
+      "generator": "perimeter",
+      "cornerTreatment": "mitre",
+      "fixingCentres": 450,
+      "firstFixingFromCorner": 100,
+      "followHoles": true
+    },
+    {
+      "id": "brace",
+      "description": "Lateral bracing where required",
+      "memberType": "brace",
+      "product": "TBC-BRACE",
+      "alternativeProducts": [],
+      "enabled": false,
+      "fixings": {
+        "type": "as scheduled",
+        "substrate": "concrete soffit",
+        "countPerConnection": 1,
+        "productCode": null
+      },
+      "heightAboveFcl": null,
+      "generator": "brace",
+      "gridSpacing": 3600,
+      "maxFromWall": 1800,
+      "angleFromVertical": 45,
+      "minDropToRequire": 800
+    }
+  ],
+  "penetration": {
+    "trimAboveArea": 90000,
+    "trimAboveWidth": 300,
+    "clearance": 25,
+    "trimmerLayer": "furring",
+    "doubleAboveWidth": 900,
+    "hangerAtTrimmerEnds": true,
+    "minClearOfMember": 60
+  },
+  "buildUp": {
+    "liningThickness": 13,
+    "systemDepth": 120,
+    "minHangerDrop": 50,
+    "maxHangerDrop": 1500
+  },
+  "optimisation": {
+    "stockLengths": [
+      3600,
+      4800,
+      6000
+    ],
+    "kerf": 3,
+    "minReusableOffcut": 600
+  },
+  "citations": {
+    "catalogue.129.massPerMetre": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "catalogue.129.depth": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "catalogue.129.width": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "catalogue.130.massPerMetre": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "catalogue.130.depth": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "catalogue.130.width": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "catalogue.308.massPerMetre": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "catalogue.308.depth": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "catalogue.308.width": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "catalogue.TBC-ROD.massPerMetre": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "layers.furring.maxSpacing": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "layers.furring.maxFromWall": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "layers.furring.minSegmentLength": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "layers.furring.maxEndOverhang": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "layers.furring.heightAboveFcl": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "layers.tsr.maxSpacing": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "layers.tsr.maxFromWall": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "layers.tsr.minSegmentLength": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "layers.tsr.maxEndOverhang": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "layers.tsr.heightAboveFcl": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "layers.clip.maxSpacing": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "layers.clip.firstFromEnd": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "layers.hanger.maxSpacing": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "layers.hanger.firstFromEnd": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "layers.wall_angle.fixingCentres": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "layers.wall_angle.firstFixingFromCorner": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "layers.brace.gridSpacing": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "layers.brace.maxFromWall": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "layers.brace.angleFromVertical": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "layers.brace.minDropToRequire": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "loadCases.13mm_plasterboard.massPerSquareMetre": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "loadCases.13mm_plasterboard.limits.furring.maxSpacing": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "loadCases.13mm_plasterboard.limits.furring.maxSpan": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "loadCases.13mm_plasterboard.limits.tsr.maxSpacing": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "loadCases.13mm_plasterboard.limits.tsr.maxSpan": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "loadCases.13mm_plasterboard.limits.hanger.maxSpacing": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "loadCases.2x13mm_plasterboard.massPerSquareMetre": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "loadCases.2x13mm_plasterboard.limits.furring.maxSpacing": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "loadCases.2x13mm_plasterboard.limits.furring.maxSpan": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "loadCases.2x13mm_plasterboard.limits.tsr.maxSpacing": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "loadCases.2x13mm_plasterboard.limits.tsr.maxSpan": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "loadCases.2x13mm_plasterboard.limits.hanger.maxSpacing": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "loadCases.13mm_plus_insulation.massPerSquareMetre": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "loadCases.13mm_plus_insulation.limits.furring.maxSpacing": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "loadCases.13mm_plus_insulation.limits.furring.maxSpan": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "loadCases.13mm_plus_insulation.limits.tsr.maxSpacing": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "loadCases.13mm_plus_insulation.limits.tsr.maxSpan": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "loadCases.13mm_plus_insulation.limits.hanger.maxSpacing": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "penetration.trimAboveArea": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "penetration.trimAboveWidth": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "penetration.clearance": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "penetration.doubleAboveWidth": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "penetration.minClearOfMember": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "buildUp.liningThickness": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "buildUp.systemDepth": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "buildUp.minHangerDrop": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "buildUp.maxHangerDrop": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "optimisation.kerf": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "optimisation.minReusableOffcut": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    }
+  }
+}

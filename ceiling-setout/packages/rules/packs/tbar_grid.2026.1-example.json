@@ -1,0 +1,561 @@
+{
+  "system": "tbar_grid",
+  "name": "Exposed T-bar suspended grid (EXAMPLE VALUES)",
+  "version": "2026.1-example",
+  "status": "example",
+  "units": "mm",
+  "manufacturer": null,
+  "source": {
+    "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+    "reference": "none",
+    "revision": "n/a",
+    "date": null,
+    "enteredBy": "fixture generator",
+    "enteredAt": null
+  },
+  "notes": "EXAMPLE PACK - THE NUMBERS IN THIS FILE ARE INVENTED. They exist so the test suite and the demo project have something to generate from, and so the shape of a completed pack is visible next to the skeleton. They are not taken from any manufacturer table and must never be used on a real project. Every output generated from this pack is watermarked accordingly.",
+  "catalogue": [
+    {
+      "code": "TBC-MAIN",
+      "description": "Main tee - to be entered from the manufacturer literature",
+      "roles": [
+        "main_tee"
+      ],
+      "stockLengths": [
+        3600
+      ],
+      "massPerMetre": null,
+      "depth": null,
+      "width": null,
+      "packQuantity": null
+    },
+    {
+      "code": "TBC-CROSS-1200",
+      "description": "1200 cross tee - to be entered from the manufacturer literature",
+      "roles": [
+        "cross_tee"
+      ],
+      "stockLengths": [
+        1200
+      ],
+      "massPerMetre": null,
+      "depth": null,
+      "width": null,
+      "packQuantity": null
+    },
+    {
+      "code": "TBC-CROSS-600",
+      "description": "600 cross tee - to be entered from the manufacturer literature",
+      "roles": [
+        "cross_tee"
+      ],
+      "stockLengths": null,
+      "massPerMetre": null,
+      "depth": null,
+      "width": null,
+      "packQuantity": null
+    },
+    {
+      "code": "TBC-WIRE",
+      "description": "Suspension wire or rod - to be entered from the manufacturer literature",
+      "roles": [
+        "hanger"
+      ],
+      "stockLengths": null,
+      "massPerMetre": null,
+      "depth": null,
+      "width": null,
+      "packQuantity": null
+    },
+    {
+      "code": "TBC-PERIM",
+      "description": "Perimeter angle or shadowline trim - to be entered from the manufacturer literature",
+      "roles": [
+        "trim"
+      ],
+      "stockLengths": [
+        3000
+      ],
+      "massPerMetre": null,
+      "depth": null,
+      "width": null,
+      "packQuantity": null
+    }
+  ],
+  "loadCases": [
+    {
+      "id": "standard_tile",
+      "description": "Standard mineral fibre tile",
+      "lining": "mineral fibre tile",
+      "massPerSquareMetre": 5,
+      "limits": [
+        {
+          "layerId": "main_tee",
+          "maxSpacing": 1200,
+          "maxSpan": 1200
+        },
+        {
+          "layerId": "cross_tee_1200",
+          "maxSpacing": 1200,
+          "maxSpan": 1200
+        },
+        {
+          "layerId": "cross_tee_600",
+          "maxSpacing": null,
+          "maxSpan": null
+        },
+        {
+          "layerId": "hanger",
+          "maxSpacing": 1200,
+          "maxSpan": null
+        }
+      ]
+    },
+    {
+      "id": "heavy_tile",
+      "description": "Heavy tile or integrated services",
+      "lining": "heavy tile",
+      "massPerSquareMetre": 14,
+      "limits": [
+        {
+          "layerId": "main_tee",
+          "maxSpacing": 1200,
+          "maxSpan": 900
+        },
+        {
+          "layerId": "cross_tee_1200",
+          "maxSpacing": 1200,
+          "maxSpan": 900
+        },
+        {
+          "layerId": "cross_tee_600",
+          "maxSpacing": null,
+          "maxSpan": null
+        },
+        {
+          "layerId": "hanger",
+          "maxSpacing": 900,
+          "maxSpan": null
+        }
+      ]
+    }
+  ],
+  "layers": [
+    {
+      "id": "main_tee",
+      "description": "Main tee",
+      "memberType": "main_tee",
+      "product": "TBC-MAIN",
+      "alternativeProducts": [],
+      "enabled": true,
+      "fixings": {
+        "type": "as scheduled",
+        "substrate": null,
+        "countPerConnection": 1,
+        "productCode": null
+      },
+      "heightAboveFcl": 0,
+      "generator": "line-array",
+      "orientation": "primary",
+      "maxSpacing": null,
+      "module": 1200,
+      "maxFromWall": 150,
+      "minSegmentLength": 300,
+      "supportedBy": null,
+      "maxEndOverhang": null,
+      "splitAtCrossingsWith": null
+    },
+    {
+      "id": "cross_tee_1200",
+      "description": "1200 cross tee between main tees",
+      "memberType": "cross_tee",
+      "product": "TBC-CROSS-1200",
+      "alternativeProducts": [],
+      "enabled": true,
+      "fixings": {
+        "type": "as scheduled",
+        "substrate": null,
+        "countPerConnection": 1,
+        "productCode": null
+      },
+      "heightAboveFcl": 0,
+      "generator": "line-array",
+      "orientation": "secondary",
+      "maxSpacing": null,
+      "module": 1200,
+      "maxFromWall": 150,
+      "minSegmentLength": 150,
+      "supportedBy": "main_tee",
+      "maxEndOverhang": null,
+      "splitAtCrossingsWith": "main_tee"
+    },
+    {
+      "id": "cross_tee_600",
+      "description": "600 cross tee splitting the tile module",
+      "memberType": "cross_tee",
+      "product": "TBC-CROSS-600",
+      "alternativeProducts": [],
+      "enabled": false,
+      "fixings": {
+        "type": "as scheduled",
+        "substrate": null,
+        "countPerConnection": 1,
+        "productCode": null
+      },
+      "heightAboveFcl": null,
+      "generator": "line-array",
+      "orientation": "primary",
+      "maxSpacing": null,
+      "module": null,
+      "maxFromWall": null,
+      "minSegmentLength": null,
+      "supportedBy": "cross_tee_1200",
+      "maxEndOverhang": null,
+      "splitAtCrossingsWith": "cross_tee_1200"
+    },
+    {
+      "id": "hanger",
+      "description": "Suspension wire along the main tee",
+      "memberType": "hanger",
+      "product": "TBC-WIRE",
+      "alternativeProducts": [],
+      "enabled": true,
+      "fixings": {
+        "type": "as scheduled",
+        "substrate": null,
+        "countPerConnection": 1,
+        "productCode": null
+      },
+      "heightAboveFcl": null,
+      "generator": "along-member",
+      "along": "main_tee",
+      "maxSpacing": 1200,
+      "firstFromEnd": 450,
+      "atCrossingsWith": null
+    },
+    {
+      "id": "perimeter_angle",
+      "description": "Perimeter angle or shadowline",
+      "memberType": "trim",
+      "product": "TBC-PERIM",
+      "alternativeProducts": [],
+      "enabled": true,
+      "fixings": {
+        "type": "as scheduled",
+        "substrate": null,
+        "countPerConnection": 1,
+        "productCode": null
+      },
+      "heightAboveFcl": null,
+      "generator": "perimeter",
+      "cornerTreatment": "mitre",
+      "fixingCentres": 450,
+      "firstFixingFromCorner": 100,
+      "followHoles": true
+    }
+  ],
+  "penetration": {
+    "trimAboveArea": 250000,
+    "trimAboveWidth": 600,
+    "clearance": 10,
+    "trimmerLayer": "cross_tee_1200",
+    "doubleAboveWidth": 1200,
+    "hangerAtTrimmerEnds": true,
+    "minClearOfMember": 30
+  },
+  "buildUp": {
+    "liningThickness": 15,
+    "systemDepth": 40,
+    "minHangerDrop": 50,
+    "maxHangerDrop": 1500
+  },
+  "optimisation": {
+    "stockLengths": [
+      3600
+    ],
+    "kerf": 2,
+    "minReusableOffcut": 600
+  },
+  "citations": {
+    "layers.main_tee.module": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "layers.main_tee.maxFromWall": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "layers.main_tee.minSegmentLength": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "layers.main_tee.heightAboveFcl": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "layers.cross_tee_1200.module": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "layers.cross_tee_1200.maxFromWall": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "layers.cross_tee_1200.minSegmentLength": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "layers.cross_tee_1200.heightAboveFcl": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "layers.hanger.maxSpacing": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "layers.hanger.firstFromEnd": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "layers.perimeter_angle.fixingCentres": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "layers.perimeter_angle.firstFixingFromCorner": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "loadCases.standard_tile.massPerSquareMetre": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "loadCases.standard_tile.limits.main_tee.maxSpacing": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "loadCases.standard_tile.limits.main_tee.maxSpan": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "loadCases.standard_tile.limits.cross_tee_1200.maxSpacing": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "loadCases.standard_tile.limits.cross_tee_1200.maxSpan": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "loadCases.standard_tile.limits.hanger.maxSpacing": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "loadCases.heavy_tile.massPerSquareMetre": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "loadCases.heavy_tile.limits.main_tee.maxSpacing": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "loadCases.heavy_tile.limits.main_tee.maxSpan": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "loadCases.heavy_tile.limits.cross_tee_1200.maxSpacing": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "loadCases.heavy_tile.limits.cross_tee_1200.maxSpan": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "loadCases.heavy_tile.limits.hanger.maxSpacing": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "penetration.trimAboveArea": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "penetration.trimAboveWidth": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "penetration.clearance": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "penetration.doubleAboveWidth": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "penetration.minClearOfMember": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "buildUp.liningThickness": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "buildUp.systemDepth": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "buildUp.minHangerDrop": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "buildUp.maxHangerDrop": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "optimisation.kerf": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    },
+    "optimisation.minReusableOffcut": {
+      "source": "EXAMPLE DATA - invented for tests and demonstration. Not a manufacturer document.",
+      "reference": "none",
+      "revision": "n/a",
+      "date": null,
+      "enteredBy": "fixture generator",
+      "enteredAt": null
+    }
+  }
+}

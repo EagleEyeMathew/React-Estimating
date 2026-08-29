@@ -18,6 +18,15 @@ importers:
         specifier: ^2.1.8
         version: 2.1.9(@types/node@22.20.1)
 
+  packages/engine:
+    dependencies:
+      '@ceiling/geometry':
+        specifier: workspace:*
+        version: link:../geometry
+      '@ceiling/rules':
+        specifier: workspace:*
+        version: link:../rules
+
   packages/geometry:
     dependencies:
       clipper-lib:

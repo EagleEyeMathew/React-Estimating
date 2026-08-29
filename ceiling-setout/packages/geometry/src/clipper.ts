@@ -1,3 +1,6 @@
+// The declaration lives beside this file and is referenced rather than merely
+// included, so it travels with the source when another package compiles it directly.
+/// <reference path="./clipper-lib.d.ts" />
 import ClipperLib from 'clipper-lib';
 import type { MultiPolygon, Polygon, Ring, Segment, Vec2 } from './types.js';
 import { normalisePolygon } from './polygon.js';

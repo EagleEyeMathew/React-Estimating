@@ -31,6 +31,8 @@ export const memberTypeSchema = z.enum([
   'trim',
   'batten',
   'brace',
+  /** A member added to span between structural supports where a hanger has nothing to fix to. */
+  'bridging',
 ]);
 export type MemberType = z.infer<typeof memberTypeSchema>;
 

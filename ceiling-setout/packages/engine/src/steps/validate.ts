@@ -152,7 +152,7 @@ function checkSpansAndOverhangs(params: ValidateParams, byLayer: Map<string, Mem
           if (span !== null && m.planLength > span.value + 1) {
             issues.error(
               'SPAN_EXCEEDED',
-              `${layer.id}: this member spans ${Math.round(m.planLength)}mm between the members it lands on, over the ${span.value}mm limit`,
+              `${layer.id}: this member spans ${Math.round(m.planLength)}mm between the members it lands on, over the ${span.value}mm limit. Add a member each side of the opening for it to land on, or reduce the clearance it was set out at.`,
               { zoneId: zone.id, location: m.start, memberIds: [m.id], ruleId: span.path },
             );
           }

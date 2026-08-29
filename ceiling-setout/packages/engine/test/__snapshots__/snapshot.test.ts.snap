@@ -85,13 +85,15 @@ exports[`reference rooms > L-shaped room skewed 7 degrees with two columns 1`] =
 exports[`reference rooms > exposed T-bar grid 1`] = `
 {
   "byLayer": {
-    "cross_tee_1200": 42,
-    "hanger": 36,
-    "main_tee": 6,
+    "cross_tee_1200": 30,
+    "hanger": 24,
+    "main_tee": 4,
     "perimeter_angle": 4,
   },
-  "issues": [],
-  "members": 88,
+  "issues": [
+    "warning EDGE_MARGIN_EXCEEDED",
+  ],
+  "members": 62,
   "setout": [
     {
       "degrees": 0,
@@ -114,7 +116,7 @@ exports[`reference rooms > exposed T-bar grid 1`] = `
       },
     },
   ],
-  "totalCutLength": 103760,
+  "totalCutLength": 83840,
 }
 `;
 
@@ -167,18 +169,18 @@ exports[`reference rooms > purlins above at 1500 centres 1`] = `
   },
   "issues": [
     "info BRIDGING_ADDED",
-    "warning HANGER_NEEDS_BRIDGING",
-    "warning HANGER_NEEDS_BRIDGING",
-    "warning HANGER_NEEDS_BRIDGING",
-    "warning HANGER_NEEDS_BRIDGING",
-    "warning HANGER_NEEDS_BRIDGING",
-    "warning HANGER_NEEDS_BRIDGING",
-    "warning HANGER_NEEDS_BRIDGING",
-    "warning HANGER_NEEDS_BRIDGING",
-    "warning HANGER_NEEDS_BRIDGING",
-    "warning HANGER_NEEDS_BRIDGING",
-    "warning HANGER_NEEDS_BRIDGING",
-    "warning HANGER_NEEDS_BRIDGING",
+    "info HANGER_NEEDS_BRIDGING",
+    "info HANGER_NEEDS_BRIDGING",
+    "info HANGER_NEEDS_BRIDGING",
+    "info HANGER_NEEDS_BRIDGING",
+    "info HANGER_NEEDS_BRIDGING",
+    "info HANGER_NEEDS_BRIDGING",
+    "info HANGER_NEEDS_BRIDGING",
+    "info HANGER_NEEDS_BRIDGING",
+    "info HANGER_NEEDS_BRIDGING",
+    "info HANGER_NEEDS_BRIDGING",
+    "info HANGER_NEEDS_BRIDGING",
+    "info HANGER_NEEDS_BRIDGING",
   ],
   "members": 122,
   "setout": [

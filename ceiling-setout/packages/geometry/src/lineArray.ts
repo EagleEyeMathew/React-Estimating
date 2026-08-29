@@ -133,50 +133,115 @@ export function lineArray(opts: LineArrayOptions): LineArrayResult {
 
   for (let k = kMin; k <= kMax; k++) {
     const offset = k * spacing;
-    const base = add(origin, scale(n, offset));
     // Rebuild the line from the lattice each time rather than stepping, so no
     // accumulated error creeps across a wide room.
-    const p0 = add(base, scale(u, t0 - dot(base, u)));
-    const p1 = add(base, scale(u, t1 - dot(base, u)));
-    let pieces = clipOpenPaths([[p0, p1]], region);
-
-    if (pieces.length === 0 && boundaryTolerance > 0) {
+    const base = add(origin, scale(n, offset));
+    for (const seg of clipLine(base, u, t0, t1, region, k, offset, boundaryTolerance, snapTolerance, () => {
       grownRegion ??= outset(region, boundaryTolerance);
-      pieces = clipOpenPaths([[p0, p1]], grownRegion).map((piece) =>
-        piece.map((pt) => {
-          const near = nearestBoundaryPoint(pt, region);
-          return near.point && near.distance <= snapTolerance ? near.point : pt;
-        }),
-      );
-    }
-
-    const ordered = pieces
-      .filter((p) => p.length >= 2)
-      .map((p) => {
-        let a = p[0]!;
-        let b = p[p.length - 1]!;
-        // Order each piece along the member direction so start/end are predictable.
-        if (dot(a, u) > dot(b, u)) [a, b] = [b, a];
-        return { a: { x: quantise(a.x), y: quantise(a.y) }, b: { x: quantise(b.x), y: quantise(b.y) } };
-      })
-      .filter((s) => dist(s.a, s.b) > EPS)
-      .sort((s1, s2) => dot(s1.a, u) - dot(s2.a, u));
-
-    ordered.forEach((s, i) => {
-      const seg: ArraySegment = {
-        lineIndex: k,
-        offset: quantise(offset),
-        segmentIndex: i,
-        a: s.a,
-        b: s.b,
-        length: quantise(dist(s.a, s.b)),
-      };
+      return grownRegion;
+    })) {
       if (seg.length + EPS < minSegmentLength) discarded.push(seg);
       else segments.push(seg);
-    });
+    }
   }
 
   return { segments, discarded, lineCount };
+}
+
+function clipLine(
+  base: Vec2,
+  u: Vec2,
+  t0: number,
+  t1: number,
+  region: MultiPolygon,
+  lineIndex: number,
+  offset: number,
+  boundaryTolerance: number,
+  snapTolerance: number,
+  grown: () => MultiPolygon,
+): ArraySegment[] {
+  const p0 = add(base, scale(u, t0 - dot(base, u)));
+  const p1 = add(base, scale(u, t1 - dot(base, u)));
+  let pieces = clipOpenPaths([[p0, p1]], region);
+
+  if (pieces.length === 0 && boundaryTolerance > 0) {
+    pieces = clipOpenPaths([[p0, p1]], grown()).map((piece) =>
+      piece.map((pt) => {
+        const near = nearestBoundaryPoint(pt, region);
+        return near.point && near.distance <= snapTolerance ? near.point : pt;
+      }),
+    );
+  }
+
+  return pieces
+    .filter((p) => p.length >= 2)
+    .map((p) => {
+      let a = p[0]!;
+      let b = p[p.length - 1]!;
+      // Order each piece along the member direction so start/end are predictable.
+      if (dot(a, u) > dot(b, u)) [a, b] = [b, a];
+      return { a: { x: quantise(a.x), y: quantise(a.y) }, b: { x: quantise(b.x), y: quantise(b.y) } };
+    })
+    .filter((s) => dist(s.a, s.b) > EPS)
+    .sort((s1, s2) => dot(s1.a, u) - dot(s2.a, u))
+    .map((s, i) => ({
+      lineIndex,
+      offset: quantise(offset),
+      segmentIndex: i,
+      a: s.a,
+      b: s.b,
+      length: quantise(dist(s.a, s.b)),
+    }));
+}
+
+/**
+ * One line through a point, clipped to the region.
+ *
+ * The same clip as a line array, for the cases that need a single line rather than a
+ * family: a member added to satisfy a perimeter setback answers one wall, and asking
+ * for a whole array and discarding all but one line would clip a hundred lines to
+ * throw away ninety-nine.
+ */
+export function singleLine(options: {
+  readonly region: MultiPolygon;
+  readonly direction: Vec2;
+  readonly through: Vec2;
+  readonly minSegmentLength?: number;
+  readonly boundaryTolerance?: number;
+}): { segments: ArraySegment[]; discarded: ArraySegment[] } {
+  const { region, through } = options;
+  if (region.length === 0) return { segments: [], discarded: [] };
+  const u = normalise(options.direction);
+  const n = perp(u);
+  const minSegmentLength = options.minSegmentLength ?? 0;
+  const boundaryTolerance = options.boundaryTolerance ?? RESOLUTION;
+  const along = projectRange(region, u);
+  const pad = Math.max(1000, (along.max - along.min) * 0.05);
+  let grownRegion: MultiPolygon | null = null;
+
+  const pieces = clipLine(
+    through,
+    u,
+    along.min - pad,
+    along.max + pad,
+    region,
+    0,
+    quantise(dot(through, n)),
+    boundaryTolerance,
+    Math.max(10 * boundaryTolerance, EPS),
+    () => {
+      grownRegion ??= outset(region, boundaryTolerance);
+      return grownRegion;
+    },
+  );
+
+  const segments: ArraySegment[] = [];
+  const discarded: ArraySegment[] = [];
+  for (const seg of pieces) {
+    if (seg.length + EPS < minSegmentLength) discarded.push(seg);
+    else segments.push(seg);
+  }
+  return { segments, discarded };
 }
 
 /**

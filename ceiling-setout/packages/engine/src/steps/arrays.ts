@@ -6,6 +6,7 @@ import {
   dot,
   lerp,
   lineArray,
+  singleLine,
   normalise,
   perp,
   quantise,
@@ -83,26 +84,58 @@ export function generateLineArray(params: LineArrayParams): LineArrayOutcome {
   }
 
   // Perimeter setback: add members against walls the lattice leaves unsupported.
+  //
+  // Added one at a time, re-checking after each, because a wall that slopes even
+  // slightly relative to the members produces a different deficient offset at every
+  // point along it. Adding them all at once fans out a dozen near-coincident members;
+  // adding one and re-checking usually satisfies the whole wall with that one.
   const setbackOffsets: number[] = [];
   const maxFromWall = layer.maxFromWall;
+  const MAX_SETBACK_LINES = 12;
+
+  if (layer.module !== null) {
+    // A module layer gets no extra members at the wall. The module is the ceiling, and
+    // the edge condition is a cut tile carried by the perimeter trim - putting a main
+    // tee 50mm inside the last one to satisfy a setback would be a line on a drawing
+    // and nothing on site. The margin is checked and reported instead.
+    if (maxFromWall !== null && plan.firstFromWall !== null && plan.firstFromWall > maxFromWall + 1) {
+      issues.warn(
+        'EDGE_MARGIN_EXCEEDED',
+        `${layer.id}: centring the ${layer.module}mm module leaves a ${Math.round(plan.firstFromWall)}mm margin at each edge, over the ${maxFromWall}mm this pack allows. The module cannot be changed to suit, so this needs a different module, an off-centre setout, or engineer review.`,
+        { zoneId, ruleId: `layers.${layer.id}.maxFromWall` },
+      );
+    }
+    return { members: sortMembers(members), discarded: array.discarded, setbackOffsets };
+  }
+
   if (maxFromWall !== null && maxFromWall > 0) {
-    const existing = members.map(planSegment);
-    const deficient = setbackDeficiencies(region, existing, direction, maxFromWall);
-    for (const offsetPoint of deficient) {
-      const extra = lineArray({
-        region,
-        direction,
-        spacing,
-        origin: offsetPoint,
-        minSegmentLength,
-        // One line only: the lattice is anchored on this point and nothing else fits
-        // within the zone at this spacing that the main array has not already placed.
-        maxLines: 100000,
-      });
-      const acrossAxis = perp(normalise(direction));
-      const offset = quantise(dot(offsetPoint, acrossAxis));
-      const onLine = extra.segments.filter((s) => s.lineIndex === 0);
-      if (onLine.length === 0) continue;
+    const acrossAxis = perp(normalise(direction));
+    for (let round = 0; round < MAX_SETBACK_LINES; round++) {
+      const deficient = setbackDeficiencies(region, members.map(planSegment), direction, maxFromWall);
+      const next = deficient[0];
+      if (!next) break;
+      const offset = quantise(dot(next, acrossAxis));
+      if (setbackOffsets.includes(offset)) break;
+
+      // Never put a member within a third of a bay of one that is already there. Two
+      // channels 40mm apart satisfy the rule on paper and cannot be built, and a wall
+      // that can only be answered that way is one the setout direction is wrong for -
+      // which is a decision for the user, so it is reported rather than drawn.
+      // Measured where the member would actually go, not by comparing offsets: in a
+      // concave room a member at the same offset in another arm is nowhere near it.
+      const existing = members.filter((m) => m.planLength > 0).map(planSegment);
+      const tooClose = existing.length > 0 && distanceToNearestSegment(next, existing) < spacing / 3;
+      if (tooClose) {
+        issues.warn(
+          'SETBACK_WOULD_DOUBLE_UP',
+          `${layer.id}: this wall needs a member within ${maxFromWall}mm of it, but the nearest place to put one is under ${Math.round(spacing / 3)}mm from an existing member. It runs at too shallow an angle to the setout to be followed - run the setout the other way, or trim locally against this wall.`,
+          { zoneId, location: next, ruleId: `layers.${layer.id}.maxFromWall` },
+        );
+        break;
+      }
+      const extra = singleLine({ region, direction, through: next, minSegmentLength });
+      const onLine = extra.segments;
+      if (onLine.length === 0) break;
       setbackOffsets.push(offset);
       for (const s of onLine) {
         members.push(
@@ -110,11 +143,18 @@ export function generateLineArray(params: LineArrayParams): LineArrayOutcome {
             params,
             edgeMemberId(zoneId, layer.id, offset, s.segmentIndex),
             s,
-            `added ${maxFromWall}mm off the wall: the ${spacing}mm lattice leaves no member within the setback here`,
+            `added ${maxFromWall}mm off the wall: the ${round3(spacing)}mm setout leaves no member within the setback here`,
             `layers.${layer.id}.maxFromWall`,
           ),
         );
       }
+    }
+    if (setbackOffsets.length >= MAX_SETBACK_LINES) {
+      issues.warn(
+        'SETBACK_UNRESOLVED',
+        `${layer.id}: the perimeter setback could not be satisfied with ${MAX_SETBACK_LINES} added members. A wall running at a shallow angle to the setout cannot be followed by members parallel to it - consider running the setout the other way or trimming locally.`,
+        { zoneId, ruleId: `layers.${layer.id}.maxFromWall` },
+      );
     }
   } else if (maxFromWall === null) {
     issues.warn(
@@ -146,15 +186,25 @@ function buildMember(
   });
 }
 
+const round3 = (v: number): number => Math.round(v * 1000) / 1000;
+
 const sortMembers = (m: Member[]): Member[] => [...m].sort((a, b) => a.id.localeCompare(b.id));
 
 /**
- * Points on walls that run alongside the members but have no member within the
- * setback, returned as lattice origins for the lines that answer them.
+ * Where a member has to be added to satisfy the perimeter setback, one point per wall.
  *
  * Walls running across the members are excluded: an unsupported member *end* is a
  * different defect with a different rule (end overhang), and adding a member parallel
  * to a wall it meets head-on would be nonsense.
+ *
+ * For each wall that does need one, the offset is chosen by interval covering rather
+ * than by answering the first deficient point found. Every deficient point on the wall
+ * accepts a member anywhere between the wall itself and the setback distance in from
+ * it; the offset picked is the one lying in the most of those intervals, breaking ties
+ * towards the full setback. A wall parallel to the members has one interval, so the
+ * member lands at the full setback where it belongs. A wall running at a slight angle
+ * has a staircase of them, and this covers as much of it as one member can - which is
+ * what stops a wall 200mm out of parallel growing a fan of members 20mm apart.
  */
 export function setbackDeficiencies(
   region: MultiPolygon,
@@ -163,8 +213,8 @@ export function setbackDeficiencies(
   maxFromWall: number,
 ): Vec2[] {
   const u = normalise(direction);
-  const found = new Map<number, Vec2>();
   const acrossAxis = perp(u);
+  const found = new Map<number, Vec2>();
 
   // Outer rings only. A column or void needs a local trimmer at its edge, not a
   // member run right across the room, so the setback rule stops at the walls and the
@@ -183,16 +233,42 @@ export function setbackDeficiencies(
         // Interior is on the left of every ring in canonical form: outer rings run
         // counter-clockwise and holes clockwise, so the same normal points inward for both.
         const inward = perp(ed);
+        const inwardSign = dot(inward, acrossAxis) >= 0 ? 1 : -1;
 
+        const deficient: { at: Vec2; wallAcross: number }[] = [];
         const steps = Math.max(1, Math.ceil(length / 500));
         for (let k = 0; k <= steps; k++) {
           const onWall = lerp(a, b, k / steps);
           const probe = add(onWall, scale(inward, Math.min(maxFromWall, 1)));
           if (members.length > 0 && distanceToNearestSegment(probe, members) <= maxFromWall) continue;
-          const candidate = add(onWall, scale(inward, maxFromWall));
-          const key = Math.round(dot(candidate, acrossAxis));
-          if (!found.has(key)) found.set(key, candidate);
+          deficient.push({ at: onWall, wallAcross: dot(onWall, acrossAxis) });
         }
+        if (deficient.length === 0) continue;
+
+        // Candidate offsets: the full setback in from each deficient point. The one
+        // covering the most points wins; among equals, the one furthest from the wall.
+        const candidates = deficient.map((d) => d.wallAcross + inwardSign * maxFromWall);
+        let bestOffset = candidates[0]!;
+        let bestCover = -1;
+        for (const candidate of candidates) {
+          const cover = deficient.filter((d) => {
+            const inFromWall = (candidate - d.wallAcross) * inwardSign;
+            return inFromWall >= -1e-6 && inFromWall <= maxFromWall + 1e-6;
+          }).length;
+          const further = (candidate - deficient[0]!.wallAcross) * inwardSign;
+          const bestFurther = (bestOffset - deficient[0]!.wallAcross) * inwardSign;
+          if (cover > bestCover || (cover === bestCover && further > bestFurther)) {
+            bestCover = cover;
+            bestOffset = candidate;
+          }
+        }
+
+        // Any point on that offset line will do; take one over the middle of the wall.
+        const mid = lerp(a, b, 0.5);
+        const shift = bestOffset - dot(mid, acrossAxis);
+        const point = add(mid, scale(acrossAxis, shift));
+        const key = Math.round(bestOffset);
+        if (!found.has(key)) found.set(key, point);
       }
     }
   }

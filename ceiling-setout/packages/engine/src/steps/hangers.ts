@@ -248,9 +248,12 @@ function snapToStructure(
     const reachable = legal.length > 0 && moved <= Math.max(tolerance, maxSpacing);
     if (!reachable) {
       out.push({ ...source, snapNote: `no ${structureMemberNoun(structure)} within reach`, needsBridging: true });
-      issues.warn(
+      // Info, not a warning: a bridging member is generated for it, appears in the
+      // schedules and carries in its provenance that the engineer sizes it. The
+      // summary issue for the zone is what asks the user to look at them as a set.
+      issues.info(
         'HANGER_NEEDS_BRIDGING',
-        `${layer.id}: no ${structureMemberNoun(structure)} within ${Math.round(tolerance)}mm of the hanger position ${Math.round(target)}mm along ${host.layerId}; a bridging member is required`,
+        `${layer.id}: no ${structureMemberNoun(structure)} within ${Math.round(tolerance)}mm of the hanger position ${Math.round(target)}mm along ${host.layerId}, so a bridging member was added`,
         { zoneId: zone.id, location: pointAt(seg, target), memberIds: [host.id] },
       );
       previous = target;

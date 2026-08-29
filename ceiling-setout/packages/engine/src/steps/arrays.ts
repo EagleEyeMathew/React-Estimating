@@ -170,8 +170,11 @@ export function setbackDeficiencies(
   const found = new Map<number, Vec2>();
   const acrossAxis = perp(u);
 
+  // Outer rings only. A column or void needs a local trimmer at its edge, not a
+  // member run right across the room, so the setback rule stops at the walls and the
+  // validator reports any opening edge that ends up unsupported.
   for (const poly of region) {
-    for (const ring of allRings(poly)) {
+    for (const ring of [poly.outer]) {
       const n = ring.length;
       for (let i = 0; i < n; i++) {
         const a = ring[i]!;

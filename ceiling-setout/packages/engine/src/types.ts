@@ -51,6 +51,12 @@ export interface Member {
   readonly rotation: number;
   readonly fixings: readonly FixingSpec[];
   readonly connectsTo: readonly string[];
+  /**
+   * Set when the member follows a curve rather than a straight line, as perimeter
+   * trim around a column does. `start` and `end` remain its two ends and `length`
+   * remains the length to cut, but the shape to draw is here.
+   */
+  readonly path?: readonly Vec3[];
   readonly zoneId: string;
   readonly provenance: Provenance;
   /** Set when a manual override changed this member. */

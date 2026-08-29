@@ -1,6 +1,15 @@
 import {
+  allRings,
   coverage,
   dist,
+  distanceToNearestSegment,
+  lerp,
+  normalise,
+  perp,
+  add,
+  scale,
+  cross,
+  sub,
   excursionDepth,
   holePenetrationDepth,
   multiPolygonArea,
@@ -48,6 +57,7 @@ export function validate(params: ValidateParams): void {
   checkContainment(params);
   checkSpansAndOverhangs(params, byLayer);
   checkCoverage(params, byLayer);
+  checkOpeningEdges(params, byLayer);
   checkHangerDrops(params);
 
   // A fixed module that breaches a span limit cannot be fixed by tightening the
@@ -182,6 +192,57 @@ function checkCoverage(params: ValidateParams, byLayer: Map<string, Member[]>): 
         `${layer.id}: part of the ceiling is ${Math.round(result.maxDistance)}mm from the nearest member, over the ${Math.round(allowed)}mm this setout allows. A member cannot reach here at ${r.spacing}mm centres - it needs a local trimmer or a change of direction.`,
         { zoneId: zone.id, location: result.worstPoint, ruleId: r.governedBy },
       );
+    }
+  }
+}
+
+/**
+ * Opening edges with no member near enough to support the lining.
+ *
+ * The perimeter setback rule adds members along walls, but deliberately not around
+ * columns and voids: a full-length member right across the room is the wrong answer
+ * to a 600mm column. The right answer is a local trimmer, and that is a decision with
+ * a fixing detail behind it - so the edge is reported with its location rather than
+ * being guessed at here.
+ */
+function checkOpeningEdges(params: ValidateParams, byLayer: Map<string, Member[]>): void {
+  const { pack, reader, zone, region, issues } = params;
+  for (const layer of pack.layers) {
+    if (!isLineArray(layer) || layer.orientation !== 'primary') continue;
+    if (!layer.enabled || zone.disabledLayers.includes(layer.id)) continue;
+    const maxFromWall = layer.maxFromWall;
+    if (maxFromWall === null) continue;
+    const r = resolveSpacing(reader, layer.id);
+    if (r.spacing === null) continue;
+    const segs = (byLayer.get(layer.id) ?? []).map(planSegment);
+    if (segs.length === 0) continue;
+    const direction = normalise({ x: segs[0]!.b.x - segs[0]!.a.x, y: segs[0]!.b.y - segs[0]!.a.y });
+
+    const reported = new Set<string>();
+    for (const poly of region) {
+      for (const ring of allRings(poly).slice(1)) {
+        for (let i = 0; i < ring.length; i++) {
+          const a = ring[i]!;
+          const b = ring[(i + 1) % ring.length]!;
+          const length = dist(a, b);
+          if (length < 1) continue;
+          const ed = normalise(sub(b, a));
+          // Only edges running alongside the members need a parallel member near them.
+          if (Math.abs(cross(ed, direction)) > Math.SQRT1_2) continue;
+          const inward = perp(ed);
+          const mid = lerp(a, b, 0.5);
+          const probe = add(mid, scale(inward, Math.min(maxFromWall, 10)));
+          if (distanceToNearestSegment(probe, segs) <= maxFromWall) continue;
+          const key = `${Math.round(mid.x / 500)}:${Math.round(mid.y / 500)}`;
+          if (reported.has(key)) continue;
+          reported.add(key);
+          issues.warn(
+            'OPENING_EDGE_UNSUPPORTED',
+            `${layer.id}: the lining edge at this opening has no member within ${maxFromWall}mm. It needs a local trimmer - the setback rule deliberately does not run a full member across the zone for an opening.`,
+            { zoneId: zone.id, location: mid, ruleId: `layers.${layer.id}.maxFromWall` },
+          );
+        }
+      }
     }
   }
 }

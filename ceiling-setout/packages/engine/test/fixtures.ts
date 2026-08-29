@@ -30,7 +30,7 @@ export const purlins = (
   width: 75,
 });
 
-export function zone(overrides: Partial<Zone> & { id: string; boundary: Ring }): Zone {
+export function zone(overrides: Omit<Partial<Zone>, 'boundary'> & { id: string; boundary: Ring }): Zone {
   const { boundary, ...rest } = overrides;
   return {
     name: rest.name ?? rest.id,

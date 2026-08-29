@@ -21,6 +21,7 @@ import {
 } from '@ceiling/geometry';
 import { allRings } from '@ceiling/geometry';
 import type { LineArrayLayer, Product, RulePack, SpacingResolution } from '@ceiling/rules';
+import type { LatticePlan } from './lattice.js';
 import { edgeMemberId, lineMemberId, splitMemberId } from '../identity.js';
 import { makeMember, planSegment } from '../member.js';
 import type { IssueLog } from '../issues.js';
@@ -32,6 +33,8 @@ export interface LineArrayParams {
   readonly layer: LineArrayLayer;
   readonly product: Product | null;
   readonly resolution: SpacingResolution;
+  /** The spacing and lattice line chosen for this layer. */
+  readonly plan: LatticePlan;
   readonly region: MultiPolygon;
   readonly direction: Vec2;
   readonly origin: Vec2;
@@ -58,17 +61,17 @@ export interface LineArrayOutcome {
  * nothing about.
  */
 export function generateLineArray(params: LineArrayParams): LineArrayOutcome {
-  const { layer, resolution, region, direction, origin, issues, zoneId } = params;
-  const spacing = resolution.spacing;
-  if (spacing === null) {
+  const { layer, resolution, plan, region, direction, origin, issues, zoneId } = params;
+  if (resolution.spacing === null) {
     return { members: [], discarded: [], setbackOffsets: [] };
   }
+  const spacing = plan.spacing;
 
   const minSegmentLength = layer.minSegmentLength ?? 0;
   const array = lineArray({ region, direction, spacing, origin, minSegmentLength });
 
   const members: Member[] = array.segments.map((s) =>
-    buildMember(params, lineMemberId(zoneId, layer.id, s.lineIndex, s.segmentIndex), s, describeSpacing(layer, resolution)),
+    buildMember(params, lineMemberId(zoneId, layer.id, s.lineIndex, s.segmentIndex), s, plan.reason),
   );
 
   for (const d of array.discarded) {
@@ -122,13 +125,6 @@ export function generateLineArray(params: LineArrayParams): LineArrayOutcome {
   }
 
   return { members: sortMembers(members), discarded: array.discarded, setbackOffsets };
-}
-
-function describeSpacing(layer: LineArrayLayer, r: SpacingResolution): string {
-  if (r.module !== null) {
-    return `set out at the ${r.module}mm module for ${layer.id}`;
-  }
-  return `spaced at ${r.spacing}mm, the tightest of ${r.candidates.length} constraint(s)`;
 }
 
 function buildMember(

@@ -1,12 +1,4 @@
-import {
-  dot,
-  normalise,
-  perp,
-  quantise,
-  sub,
-  type MultiPolygon,
-  type Vec2,
-} from '@ceiling/geometry';
+import { normalise, perp, quantise, type Vec2 } from '@ceiling/geometry';
 import {
   PackReader,
   RulePackRegistry,
@@ -20,7 +12,7 @@ import {
   type LineArrayLayer,
   type RulePack,
 } from '@ceiling/rules';
-import type { Penetration, Project, Zone } from './project.js';
+import type { Project, Zone } from './project.js';
 import { IssueLog } from './issues.js';
 import { applyOverrides } from './overrides.js';
 import { packKeyOf } from './provenance.js';
@@ -34,8 +26,9 @@ import {
   cutOpenings,
   generateTrimmers,
 } from './steps/penetrations.js';
-import { penetrationWidth, resolveZone } from './steps/resolveZone.js';
-import { layerLatticeOrigin, resolveDirection, resolveOrigin, shiftAcross } from './steps/setout.js';
+import { resolveZone } from './steps/resolveZone.js';
+import { resolveDirection, resolveOrigin } from './steps/setout.js';
+import { planLattice } from './steps/lattice.js';
 import { validate } from './steps/validate.js';
 import { nestCuts, type Nesting } from './steps/optimise.js';
 import type { GenerationResult, Member, SetoutDecision, ZoneResult } from './types.js';
@@ -147,8 +140,8 @@ function generateZone(
 
   for (const layer of ordered) {
     const resolution = resolveSpacing(reader, layer.id);
-    spacings[layer.id] = { spacing: resolution.spacing, governedBy: resolution.governedBy };
     if (resolution.spacing === null) {
+      spacings[layer.id] = { spacing: null, governedBy: resolution.governedBy };
       issues.error('SPACING_UNRESOLVED', `${layer.id}: spacing could not be resolved, so no members were generated`, {
         zoneId: zone.id,
         ruleId: `layers.${layer.id}.maxSpacing`,
@@ -156,36 +149,49 @@ function generateZone(
       continue;
     }
     const direction = layer.orientation === 'primary' ? dir.direction : perp(normalise(dir.direction));
-    let origin = layerLatticeOrigin(buildableRegion, direction, resolution.spacing, zone.setout.origin, org.origin);
+    const plan = planLattice({
+      region: buildableRegion,
+      direction,
+      maxSpacing: resolution.spacing,
+      module: layer.module,
+      maxFromWall: layer.maxFromWall,
+      originSpec: zone.setout.origin,
+      datum: org.origin,
+      // Only the primary layer is moved to keep openings clear: it is the one a
+      // downlight has to miss, and moving the layer above it as well would gain
+      // nothing and lose the relationship between the two.
+      penetrations:
+        layer.orientation === 'primary' && zone.setout.avoidPenetrations ? split.untrimmed : [],
+      minClearOfMember: pack.penetration?.minClearOfMember ?? 0,
+    });
+    // Rounded for reporting; the lattice itself runs on the exact value.
+    spacings[layer.id] = { spacing: quantise(plan.spacing), governedBy: resolution.governedBy };
+    layerOrigins[layer.id] = plan.origin;
 
-    // Nudge the primary lattice so small openings do not land on a member.
-    if (layer.orientation === 'primary' && zone.setout.avoidPenetrations && layer.module === null) {
-      const nudge = phaseAvoidingPenetrations(
-        split.untrimmed,
-        origin,
-        direction,
-        resolution.spacing,
-        pack.penetration?.minClearOfMember ?? 0,
+    if (plan.nudged > 0) {
+      issues.info(
+        'SETOUT_NUDGED',
+        `${layer.id}: the first member was set ${Math.round(plan.firstFromWall ?? 0)}mm off the wall rather than ${layer.maxFromWall}mm, to keep openings clear of the members`,
+        { zoneId: zone.id, ruleId: 'penetration.minClearOfMember' },
       );
-      if (nudge !== 0) {
-        origin = shiftAcross(origin, direction, nudge);
-        issues.info(
-          'SETOUT_NUDGED',
-          `${layer.id}: the setout was moved ${Math.round(Math.abs(nudge))}mm across to keep openings clear of the members`,
-          { zoneId: zone.id, ruleId: 'penetration.minClearOfMember' },
-        );
-      }
     }
-    layerOrigins[layer.id] = origin;
+    if (plan.extraBays > 0) {
+      issues.info(
+        'EXTRA_BAYS_ADDED',
+        `${layer.id}: ${plan.extraBays} bay(s) beyond the minimum were added, tightening the spacing to ${quantise(plan.spacing)}mm, because no setout at the minimum kept every opening clear of a member. This is extra material - check it against the alternative of moving the services.`,
+        { zoneId: zone.id, ruleId: 'penetration.minClearOfMember' },
+      );
+    }
 
     const outcome = generateLineArray({
       pack,
       layer,
       product: productOf(layer),
       resolution,
+      plan,
       region: buildableRegion,
       direction,
-      origin,
+      origin: plan.origin,
       plane,
       zoneId: zone.id,
       issues,
@@ -263,7 +269,10 @@ function generateZone(
     }
   }
 
-  // 9. Perimeter trim.
+  // 9. Perimeter trim. Against the zone and its structural voids, not the buildable
+  // region: wall angle follows walls, columns and stair voids. A service opening gets
+  // a trimmed frame instead, which step 8 has already generated - running wall angle
+  // round a diffuser would schedule trim nobody installs.
   for (const layer of active.filter(isPerimeter)) {
     membersByLayer.set(
       layer.id,
@@ -271,7 +280,7 @@ function generateZone(
         pack,
         layer,
         product: productOf(layer),
-        region: buildableRegion,
+        region,
         plane,
         zoneId: zone.id,
         issues,
@@ -361,58 +370,3 @@ function generateZone(
   };
 }
 
-/**
- * How far to shift the lattice, across the member direction, to get openings off the
- * members.
- *
- * Whether an opening lands on a member depends only on its perpendicular distance to
- * the nearest lattice line, so the search is arithmetic rather than a re-run of the
- * generator: a hundred candidate phases cost nothing. The phase closest to the
- * balanced position that clears the most openings wins, so the setout moves as little
- * as it can - a drafter nudging a setout by eye is doing the same thing, and this way
- * the amount and the reason end up on the drawing.
- */
-export function phaseAvoidingPenetrations(
-  penetrations: readonly Penetration[],
-  origin: Vec2,
-  direction: Vec2,
-  spacing: number,
-  minClear: number,
-): number {
-  if (penetrations.length === 0 || spacing <= 0) return 0;
-  const n = perp(normalise(direction));
-  const originAcross = dot(origin, n);
-  const targets = penetrations.map((p) => ({
-    across: dot(p.shape.centre, n) - originAcross,
-    reach: penetrationWidth(p.shape) / 2 + minClear,
-  }));
-
-  const conflictsAt = (phase: number): number =>
-    targets.filter((t) => {
-      const rel = t.across - phase;
-      const nearest = Math.abs(rel - Math.round(rel / spacing) * spacing);
-      return nearest < t.reach - 1e-6;
-    }).length;
-
-  const baseline = conflictsAt(0);
-  if (baseline === 0) return 0;
-
-  const steps = 200;
-  let bestPhase = 0;
-  let bestConflicts = baseline;
-  for (let i = 1; i <= steps; i++) {
-    // Alternate either side of the balanced position so the smallest shift wins ties.
-    for (const sign of [1, -1] as const) {
-      const phase = quantise((sign * i * spacing) / steps);
-      const c = conflictsAt(phase);
-      if (c < bestConflicts) {
-        bestConflicts = c;
-        bestPhase = phase;
-      }
-      if (bestConflicts === 0) return bestPhase;
-    }
-  }
-  return bestPhase;
-}
-
-export { sub, type MultiPolygon };

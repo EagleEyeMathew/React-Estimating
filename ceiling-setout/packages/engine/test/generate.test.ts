@@ -29,13 +29,21 @@ describe('generation on a plain room', () => {
     for (const m of of('tsr')) expect(Math.abs(Math.abs(m.rotation) - Math.PI / 2)).toBeLessThan(1e-6);
   });
 
-  it('spaces the furring at the resolved spacing', () => {
+  it('divides the room into equal bays under the maximum, rather than running at the maximum and infilling', () => {
+    // 4000 wide, 150 off each wall, 3700 between the outer members: nine bays of
+    // 411.1 rather than eight of 450 plus a channel 40mm off the last one.
     expect(result.zones[0]!.spacings.furring).toEqual({
-      spacing: 450,
+      spacing: 411.111,
       governedBy: 'layers.furring.maxSpacing',
     });
     const ys = [...new Set(of('furring').map((m) => m.start.y))].sort((a, b) => a - b);
-    for (let i = 1; i < ys.length; i++) expect(ys[i]! - ys[i - 1]!).toBeLessThanOrEqual(450 + 1e-6);
+    expect(ys[0]).toBe(150);
+    expect(ys[ys.length - 1]).toBe(3850);
+    for (let i = 1; i < ys.length; i++) {
+      const bay = ys[i]! - ys[i - 1]!;
+      expect(bay).toBeLessThanOrEqual(450 + 1e-6);
+      expect(bay).toBeCloseTo(411.111, 2);
+    }
   });
 
   it('carries provenance on every member', () => {

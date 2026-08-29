@@ -8,6 +8,7 @@ export * from './overrides.js';
 export * from './generate.js';
 export * from './steps/resolveZone.js';
 export * from './steps/setout.js';
+export * from './steps/lattice.js';
 export * from './steps/arrays.js';
 export * from './steps/hangers.js';
 export * from './steps/penetrations.js';

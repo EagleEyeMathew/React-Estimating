@@ -3,14 +3,14 @@
 exports[`reference rooms > L-shaped room 1`] = `
 {
   "byLayer": {
-    "clip": 160,
-    "furring": 21,
+    "clip": 145,
+    "furring": 19,
     "hanger": 65,
     "tsr": 10,
     "wall_angle": 6,
   },
   "issues": [],
-  "members": 262,
+  "members": 245,
   "setout": [
     {
       "degrees": 90,
@@ -25,22 +25,22 @@ exports[`reference rooms > L-shaped room 1`] = `
     {
       "furring": {
         "governedBy": "layers.furring.maxSpacing",
-        "spacing": 450,
+        "spacing": 427.778,
       },
       "tsr": {
         "governedBy": "layers.tsr.maxSpacing",
-        "spacing": 1200,
+        "spacing": 1087.5,
       },
     },
   ],
-  "totalCutLength": 270700,
+  "totalCutLength": 257700,
 }
 `;
 
 exports[`reference rooms > L-shaped room skewed 7 degrees with two columns 1`] = `
 {
   "byLayer": {
-    "clip": 159,
+    "clip": 150,
     "furring": 23,
     "hanger": 65,
     "tsr": 11,
@@ -50,9 +50,12 @@ exports[`reference rooms > L-shaped room skewed 7 degrees with two columns 1`] =
     "warning END_OVERHANG",
     "warning END_OVERHANG",
     "warning END_OVERHANG",
+    "warning END_OVERHANG",
+    "warning END_OVERHANG",
+    "warning END_OVERHANG",
     "warning OPENING_EDGE_UNSUPPORTED",
   ],
-  "members": 266,
+  "members": 257,
   "setout": [
     {
       "degrees": 97.001,
@@ -67,15 +70,15 @@ exports[`reference rooms > L-shaped room skewed 7 degrees with two columns 1`] =
     {
       "furring": {
         "governedBy": "layers.furring.maxSpacing",
-        "spacing": 450,
+        "spacing": 427.787,
       },
       "tsr": {
         "governedBy": "layers.tsr.maxSpacing",
-        "spacing": 1200,
+        "spacing": 1087.52,
       },
     },
   ],
-  "totalCutLength": 272721,
+  "totalCutLength": 265757,
 }
 `;
 
@@ -118,14 +121,14 @@ exports[`reference rooms > exposed T-bar grid 1`] = `
 exports[`reference rooms > plain 6x4 room 1`] = `
 {
   "byLayer": {
-    "clip": 66,
-    "furring": 11,
+    "clip": 60,
+    "furring": 10,
     "hanger": 30,
     "tsr": 6,
     "wall_angle": 4,
   },
   "issues": [],
-  "members": 117,
+  "members": 110,
   "setout": [
     {
       "degrees": 0,
@@ -140,15 +143,15 @@ exports[`reference rooms > plain 6x4 room 1`] = `
     {
       "furring": {
         "governedBy": "layers.furring.maxSpacing",
-        "spacing": 450,
+        "spacing": 411.111,
       },
       "tsr": {
         "governedBy": "layers.tsr.maxSpacing",
-        "spacing": 1200,
+        "spacing": 1140,
       },
     },
   ],
-  "totalCutLength": 127400,
+  "totalCutLength": 121400,
 }
 `;
 
@@ -156,8 +159,8 @@ exports[`reference rooms > purlins above at 1500 centres 1`] = `
 {
   "byLayer": {
     "bridging": 12,
-    "clip": 66,
-    "furring": 11,
+    "clip": 60,
+    "furring": 10,
     "hanger": 30,
     "tsr": 6,
     "wall_angle": 4,
@@ -177,7 +180,7 @@ exports[`reference rooms > purlins above at 1500 centres 1`] = `
     "warning HANGER_NEEDS_BRIDGING",
     "warning HANGER_NEEDS_BRIDGING",
   ],
-  "members": 129,
+  "members": 122,
   "setout": [
     {
       "degrees": 0,
@@ -192,29 +195,29 @@ exports[`reference rooms > purlins above at 1500 centres 1`] = `
     {
       "furring": {
         "governedBy": "layers.furring.maxSpacing",
-        "spacing": 450,
+        "spacing": 411.111,
       },
       "tsr": {
         "governedBy": "layers.tsr.maxSpacing",
-        "spacing": 1200,
+        "spacing": 1140,
       },
     },
   ],
-  "totalCutLength": 151400,
+  "totalCutLength": 145400,
 }
 `;
 
 exports[`reference rooms > raked 1:20 1`] = `
 {
   "byLayer": {
-    "clip": 66,
-    "furring": 11,
+    "clip": 60,
+    "furring": 10,
     "hanger": 30,
     "tsr": 6,
     "wall_angle": 4,
   },
   "issues": [],
-  "members": 117,
+  "members": 110,
   "setout": [
     {
       "degrees": 0,
@@ -229,42 +232,32 @@ exports[`reference rooms > raked 1:20 1`] = `
     {
       "furring": {
         "governedBy": "layers.furring.maxSpacing",
-        "spacing": 450,
+        "spacing": 411.111,
       },
       "tsr": {
         "governedBy": "layers.tsr.maxSpacing",
-        "spacing": 1200,
+        "spacing": 1140,
       },
     },
   ],
-  "totalCutLength": 122997,
+  "totalCutLength": 116990,
 }
 `;
 
 exports[`reference rooms > services: 14 downlights and 3 diffusers 1`] = `
 {
   "byLayer": {
-    "clip": 64,
-    "furring": 20,
+    "clip": 68,
+    "furring": 24,
     "hanger": 32,
     "tsr": 8,
-    "wall_angle": 16,
+    "wall_angle": 4,
   },
   "issues": [
-    "error MEMBER_UNSUPPORTED",
-    "error MEMBER_UNSUPPORTED",
-    "error MEMBER_UNSUPPORTED",
-    "error MEMBER_UNSUPPORTED",
-    "error MEMBER_UNSUPPORTED",
-    "error MEMBER_UNSUPPORTED",
-    "warning END_OVERHANG",
-    "warning END_OVERHANG",
-    "warning END_OVERHANG",
-    "warning END_OVERHANG",
-    "warning END_OVERHANG",
-    "warning END_OVERHANG",
+    "info EXTRA_BAYS_ADDED",
+    "info SETOUT_NUDGED",
   ],
-  "members": 140,
+  "members": 136,
   "setout": [
     {
       "degrees": 0,
@@ -279,14 +272,14 @@ exports[`reference rooms > services: 14 downlights and 3 diffusers 1`] = `
     {
       "furring": {
         "governedBy": "layers.furring.maxSpacing",
-        "spacing": 450,
+        "spacing": 344.545,
       },
       "tsr": {
         "governedBy": "layers.tsr.maxSpacing",
-        "spacing": 1200,
+        "spacing": 1140,
       },
     },
   ],
-  "totalCutLength": 138510,
+  "totalCutLength": 135562,
 }
 `;

@@ -124,12 +124,43 @@ function checkSpansAndOverhangs(params: ValidateParams, byLayer: Map<string, Mem
     const span = resolveSpan(reader, layer.id);
     const supports = byLayer.get(layer.supportedBy) ?? [];
     const overhang = layer.maxEndOverhang;
+    const all = params.members;
+    // Anything that names a member in connectsTo bears on it there. A furring stub
+    // beside an opening ends on the trimmer that was set out for it, not in mid-air,
+    // and counting only crossings with the nominal supporting layer would report
+    // every one of them as a metre of unsupported cantilever.
+    const extraSupports = new Map<string, Member[]>();
+    for (const other of all) {
+      if (other.planLength === 0) continue;
+      for (const id of other.connectsTo) {
+        const list = extraSupports.get(id) ?? [];
+        list.push(other);
+        extraSupports.set(id, list);
+      }
+    }
+
     for (const m of byLayer.get(layer.id) ?? []) {
-      const crossings = crossingsAlong(m, supports);
+      const crossings = crossingsAlong(m, [...supports, ...(extraSupports.get(m.id) ?? [])]);
       if (crossings.length === 0) {
+        // A trimmer crosses no TSR, and should not: it spans between the two members
+        // it was set out against, which it names in connectsTo. Checking only for a
+        // crossing would call every trimmer unsupported and bury the real ones.
+        const carriers = m.connectsTo
+          .map((id) => all.find((x) => x.id === id))
+          .filter((x): x is Member => x !== undefined && x.planLength > 0);
+        if (carriers.length >= 2) {
+          if (span !== null && m.planLength > span.value + 1) {
+            issues.error(
+              'SPAN_EXCEEDED',
+              `${layer.id}: this member spans ${Math.round(m.planLength)}mm between the members it lands on, over the ${span.value}mm limit`,
+              { zoneId: zone.id, location: m.start, memberIds: [m.id], ruleId: span.path },
+            );
+          }
+          continue;
+        }
         issues.error(
           'MEMBER_UNSUPPORTED',
-          `${layer.id}: this member crosses no ${layer.supportedBy} at all, so it has no support`,
+          `${layer.id}: this member crosses no ${layer.supportedBy}, and lands on nothing else either, so it has no support`,
           { zoneId: zone.id, location: m.start, memberIds: [m.id] },
         );
         continue;

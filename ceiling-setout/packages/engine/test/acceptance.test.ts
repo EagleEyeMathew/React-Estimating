@@ -225,9 +225,13 @@ describe('room with 14 downlights and 3 diffusers', () => {
     expect(result.issues.filter((i) => i.code === 'PENETRATION_ON_MEMBER')).toEqual([]);
   });
 
-  it('says on the drawing that the setout was moved to achieve it', () => {
-    const nudge = result.issues.find((i) => i.code === 'SETOUT_NUDGED');
-    if (nudge) expect(nudge.message).toMatch(/moved \d+mm across/);
+  it('says on the drawing what the setout gave up to achieve it', () => {
+    // Clearing every light took a decision, and the decision has to be visible.
+    const notes = result.issues.filter((i) => i.code === 'SETOUT_NUDGED' || i.code === 'EXTRA_BAYS_ADDED');
+    expect(notes.length).toBeGreaterThan(0);
+    for (const n of notes) expect(n.severity).toBe('info');
+    const extra = notes.find((i) => i.code === 'EXTRA_BAYS_ADDED');
+    if (extra) expect(extra.message).toMatch(/extra material/);
   });
 
   it('runs no member through a trimmed opening', () => {
@@ -316,14 +320,17 @@ describe('changing one spacing value in the rule pack', () => {
   });
 
   it('tightens the furring to the new spacing', () => {
-    expect(before.zones[0]!.spacings.furring!.spacing).toBe(450);
-    expect(after.zones[0]!.spacings.furring!.spacing).toBe(300);
+    // Both are the even-bay spacing derived from the maximum, so tightening the
+    // maximum from 450 to 300 adds bays and closes the members up.
+    expect(before.zones[0]!.spacings.furring!.spacing).toBe(411.111);
+    expect(after.zones[0]!.spacings.furring!.spacing).toBe(284.615);
+    expect(after.zones[0]!.spacings.furring!.spacing).toBeLessThan(300);
   });
 
   it('cites the new pack version on every changed member', () => {
     for (const m of after.members.filter((x) => x.layerId === 'furring')) {
       expect(m.provenance.rulePackVersion).toBe('rondo_keylock@2026.2-example');
-      expect(m.provenance.spacingUsed).toBe(300);
+      expect(m.provenance.spacingUsed).toBe(300);  // the maximum that governed
       expect(m.provenance.ruleId).toBe('layers.furring.maxSpacing');
     }
   });

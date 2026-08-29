@@ -18,6 +18,7 @@ import type { LineArrayLayer, PenetrationRule, Product, RulePack } from '@ceilin
 import type { Penetration, Zone } from '../project.js';
 import { trimmerMemberId } from '../identity.js';
 import { makeMember, planSegment } from '../member.js';
+import { intersectionParameter } from './arrays.js';
 import type { IssueLog } from '../issues.js';
 import { provenance } from '../provenance.js';
 import type { Member } from '../types.js';
@@ -138,6 +139,13 @@ export function generateTrimmers(params: TrimmerParams, trimmed: readonly Penetr
           a: add(a, scale(u, nudge)),
           b: add(b, scale(u, nudge)),
         };
+        // Everything the trimmer crosses bears on it, not only the two members it was
+        // set out between. The short lengths beside an opening land on the trimmer at
+        // both ends, and a support check that could not see that would report each of
+        // them as a metre of unsupported cantilever.
+        const carried = params.primaryMembers
+          .filter((m) => m.planLength > 0 && intersectionParameter(seg, planSegment(m)) !== null)
+          .map((m) => m.id);
         out.push(
           makeMember({
             id: trimmerMemberId(zone.id, layer.id, pen.id, `${side > 0 ? 'far' : 'near'}${doubled ? i : ''}`),
@@ -146,7 +154,7 @@ export function generateTrimmers(params: TrimmerParams, trimmed: readonly Penetr
             segment: seg,
             plane,
             zoneId: zone.id,
-            connectsTo: flanks.memberIds,
+            connectsTo: [...new Set([...flanks.memberIds, ...carried])].sort(),
             provenance: provenance({
               pack,
               ruleId: doubled ? 'penetration.doubleAboveWidth' : 'penetration.trimAboveArea',

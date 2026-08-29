@@ -183,9 +183,12 @@ function checkSpansAndOverhangs(params: ValidateParams, byLayer: Map<string, Mem
         for (let i = 1; i < crossings.length; i++) {
           const gap = crossings[i]!.distance - crossings[i - 1]!.distance;
           if (gap > span.value + 1) {
+            // A layer that names nothing to bear on is carried by its hangers, and
+            // saying "between null supports" helped nobody.
+            const between = layer.supportedBy ? `${layer.supportedBy} supports` : 'the members carrying it';
             issues.error(
               'SPAN_EXCEEDED',
-              `${layer.id}: a ${Math.round(gap)}mm span between ${layer.supportedBy} supports exceeds the ${span.value}mm limit`,
+              `${layer.id}: a ${Math.round(gap)}mm span between ${between} exceeds the ${span.value}mm limit`,
               { zoneId: zone.id, location: m.start, memberIds: [m.id], ruleId: span.path },
             );
           }

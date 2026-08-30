@@ -1,0 +1,27 @@
+{
+  // Use the TypeScript the project is pinned to, not whichever version VS Code
+  // happens to ship. The two disagreeing is the usual reason the editor shows errors
+  // that the terminal does not.
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "typescript.preferences.importModuleSpecifierEnding": "js",
+
+  // The packages are consumed as source, so Go to Definition lands in the real file
+  // rather than a .d.ts.
+  "typescript.preferences.preferTypeOnlyAutoImports": true,
+
+  "files.eol": "\n",
+  "editor.rulers": [110],
+
+  "files.exclude": {
+    "**/node_modules": true,
+    "**/dist": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/pnpm-lock.yaml": true
+  },
+
+  "vitest.rootConfig": "vitest.workspace.ts"
+}

@@ -1,0 +1,27 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      // Starts the dev server if it is not already running, then opens the app with
+      // the debugger attached, so a breakpoint in the engine stops on the real setout.
+      "name": "Run the app",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:5173",
+      "webRoot": "${workspaceFolder}/apps/web",
+      "preLaunchTask": "Run the app",
+      "sourceMaps": true
+    },
+    {
+      "name": "Debug the current test file",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/node_modules/vitest/vitest.mjs",
+      "args": ["run", "${relativeFile}"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "smartStep": true,
+      "skipFiles": ["<node_internals>/**"]
+    }
+  ]
+}

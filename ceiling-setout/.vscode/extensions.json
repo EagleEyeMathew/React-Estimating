@@ -1,0 +1,5 @@
+{
+  // Only what this project actually uses. Recommending a formatter nothing is
+  // configured for would have it reformat files against the rest of the codebase.
+  "recommendations": ["vitest.explorer"]
+}

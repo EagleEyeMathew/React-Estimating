@@ -23,6 +23,21 @@ and every drawing it produces says so.
 - **It will not claim compliance.** The output says "within the rule pack values
   entered", names the pack version, and states where each figure was said to come from.
 
+## Opening it in VS Code
+
+Open the **`ceiling-setout` folder** (not the repository root) — the workspace settings
+live there. VS Code will offer the Vitest extension; accepting it puts every test in the
+Testing panel with a run button next to it.
+
+- **Ctrl-Shift-B** starts the app.
+- **F5** starts it and attaches the debugger, so a breakpoint in the engine stops on the
+  real setout.
+- The terminal menu's Run Task has Test, Test (watch) and Typecheck.
+
+The settings pin the editor to the TypeScript version the project uses. Without that,
+VS Code uses its own, and the two disagreeing is the usual reason the editor shows
+errors the terminal does not.
+
 ## Layout
 
 ```

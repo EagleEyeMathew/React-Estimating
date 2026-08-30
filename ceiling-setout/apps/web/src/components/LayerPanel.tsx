@@ -24,6 +24,9 @@ export function LayerPanel() {
 
   const layers = [...new Set(result?.members.map((m) => m.layerId) ?? [])].sort();
   const counts = new Map(layers.map((l) => [l, result?.members.filter((m) => m.layerId === l).length ?? 0]));
+  // Colour by member type, not by layer id. A layer someone added themselves has an id
+  // no stylesheet has heard of, and would show a grey chip against a blue member.
+  const typeOf = new Map(layers.map((l) => [l, result?.members.find((m) => m.layerId === l)?.type ?? 'trim']));
 
   return (
     <div className="layer-bar">
@@ -38,7 +41,7 @@ export function LayerPanel() {
       <div className="chips">
         {layers.map((l) => (
           <button key={l} className={`chip ${hidden.has(l) ? 'off' : ''}`} onClick={() => toggle(l)}>
-            <span className={`swatch ${l}`} />
+            <span className={`swatch type-${typeOf.get(l)}`} />
             {l} <span className="count">{counts.get(l)}</span>
           </button>
         ))}

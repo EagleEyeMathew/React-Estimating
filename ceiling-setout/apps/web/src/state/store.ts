@@ -1,6 +1,27 @@
 import { create } from 'zustand';
 import type { RulePack } from '@ceiling/rules';
-import { RulePackRegistry, builtinPacks, setValueAt, forkVersion } from '@ceiling/rules';
+import {
+  RulePackRegistry,
+  addLayer,
+  addLoadCase,
+  addProduct,
+  blankLayer,
+  blankProduct,
+  builtinPacks,
+  duplicateLayer,
+  forkVersion,
+  moveLayer,
+  removeLayer,
+  removeLoadCase,
+  removeProduct,
+  renameLayer,
+  setValueAt,
+  updateLayer,
+  updateProduct,
+  type Layer,
+  type MemberType,
+  type Product,
+} from '@ceiling/rules';
 import {
   generate,
   type DirectionSpec,
@@ -57,6 +78,25 @@ export interface AppState {
 
   editPackValue: (packKey: string, path: string, value: number | null) => void;
   publishPackVersion: (packKey: string, version: string) => void;
+
+  /**
+   * Structural edits. Each takes the same shape: change the pack, regenerate, and let
+   * whatever it broke show up in the issues rather than being validated away silently.
+   */
+  addPackLayer: (packKey: string, layer: Layer, insertAfter?: string) => void;
+  removePackLayer: (packKey: string, layerId: string, detach: boolean) => void;
+  renamePackLayer: (packKey: string, from: string, to: string) => void;
+  duplicatePackLayer: (packKey: string, layerId: string, newId: string) => void;
+  updatePackLayer: (packKey: string, layerId: string, patch: Record<string, unknown>) => void;
+  movePackLayer: (packKey: string, layerId: string, delta: number) => void;
+  addPackProduct: (packKey: string, product: Product) => void;
+  updatePackProduct: (packKey: string, code: string, patch: Record<string, unknown>) => void;
+  removePackProduct: (packKey: string, code: string, detach: boolean) => void;
+  addPackLoadCase: (packKey: string, id: string, description: string) => void;
+  removePackLoadCase: (packKey: string, id: string) => void;
+  /** The last structural edit that was refused, so the panel can say why. */
+  lastEditError: string | null;
+  clearEditError: () => void;
 
   loadProject: (project: Project) => void;
   regenerate: () => void;
@@ -173,6 +213,8 @@ export const useStore = create<AppState>((set, get) => {
         packs: get().packs.map((p) => (`${p.system}@${p.version}` === packKey ? setValueAt(p, path, value) : p)),
       }),
 
+    ...structuralEdits(get, apply, set),
+
     publishPackVersion: (packKey, version) => {
       const source = get().packs.find((p) => `${p.system}@${p.version}` === packKey);
       if (!source) return;
@@ -181,8 +223,57 @@ export const useStore = create<AppState>((set, get) => {
 
     loadProject: (next) => apply({ project: next }),
     regenerate: () => apply({}),
+    lastEditError: null,
+    clearEditError: () => set({ lastEditError: null }),
   };
 });
+
+/**
+ * The structural edits, all built the same way.
+ *
+ * The rules package refuses an edit that would leave the pack incoherent - removing a
+ * rail three layers still bear on, renaming onto a name already taken - by throwing.
+ * That message is worth showing rather than swallowing, so every edit funnels through
+ * one place that catches it and puts it on the panel.
+ */
+function structuralEdits(
+  get: () => AppState,
+  apply: (next: { packs?: RulePack[] }) => void,
+  set: (partial: Partial<AppState>) => void,
+) {
+  const edit = (packKey: string, change: (pack: RulePack) => RulePack): void => {
+    try {
+      apply({ packs: get().packs.map((p) => (`${p.system}@${p.version}` === packKey ? change(p) : p)) });
+      set({ lastEditError: null });
+    } catch (error) {
+      set({ lastEditError: error instanceof Error ? error.message : String(error) });
+    }
+  };
+
+  return {
+    addPackLayer: (packKey: string, layer: Layer, insertAfter?: string) =>
+      edit(packKey, (p) => addLayer(p, layer, insertAfter)),
+    removePackLayer: (packKey: string, layerId: string, detach: boolean) =>
+      edit(packKey, (p) => removeLayer(p, layerId, { detach })),
+    renamePackLayer: (packKey: string, from: string, to: string) => edit(packKey, (p) => renameLayer(p, from, to)),
+    duplicatePackLayer: (packKey: string, layerId: string, newId: string) =>
+      edit(packKey, (p) => duplicateLayer(p, layerId, newId)),
+    updatePackLayer: (packKey: string, layerId: string, patch: Record<string, unknown>) =>
+      edit(packKey, (p) => updateLayer(p, layerId, patch)),
+    movePackLayer: (packKey: string, layerId: string, delta: number) => edit(packKey, (p) => moveLayer(p, layerId, delta)),
+    addPackProduct: (packKey: string, product: Product) => edit(packKey, (p) => addProduct(p, product)),
+    updatePackProduct: (packKey: string, code: string, patch: Record<string, unknown>) =>
+      edit(packKey, (p) => updateProduct(p, code, patch)),
+    removePackProduct: (packKey: string, code: string, detach: boolean) =>
+      edit(packKey, (p) => removeProduct(p, code, { detach })),
+    addPackLoadCase: (packKey: string, id: string, description: string) =>
+      edit(packKey, (p) => addLoadCase(p, id, description)),
+    removePackLoadCase: (packKey: string, id: string) => edit(packKey, (p) => removeLoadCase(p, id)),
+  };
+}
+
+export { blankLayer, blankProduct };
+export type { Layer, MemberType, Product };
 
 /**
  * Members of the active zone that are not on a hidden layer.

@@ -6,18 +6,20 @@ import { SetoutPanel } from './components/SetoutPanel.js';
 import { InspectorPanel } from './components/InspectorPanel.js';
 import { IssuesPanel } from './components/IssuesPanel.js';
 import { RulePackEditor } from './components/RulePackEditor.js';
+import { LayerEditor } from './components/LayerEditor.js';
 import { SchedulePanel } from './components/SchedulePanel.js';
 import { ExportPanel } from './components/ExportPanel.js';
 import { useStore } from './state/store.js';
 
-type Tab = 'setout' | 'member' | 'issues' | 'rules' | 'schedules' | 'issue';
+type Tab = 'setout' | 'member' | 'issues' | 'layers' | 'rules' | 'schedules' | 'issue';
 type Stage = 'model' | 'plan';
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'setout', label: 'Setout' },
   { id: 'member', label: 'Member' },
   { id: 'issues', label: 'Issues' },
-  { id: 'rules', label: 'Rule pack' },
+  { id: 'layers', label: 'Layers' },
+  { id: 'rules', label: 'Values' },
   { id: 'schedules', label: 'Schedules' },
   { id: 'issue', label: 'Issue' },
 ];
@@ -85,6 +87,7 @@ export function App() {
             {tab === 'setout' && <SetoutPanel />}
             {tab === 'member' && <InspectorPanel />}
             {tab === 'issues' && <IssuesPanel />}
+            {tab === 'layers' && <LayerEditor />}
             {tab === 'rules' && <RulePackEditor />}
             {tab === 'schedules' && <SchedulePanel />}
             {tab === 'issue' && <ExportPanel />}

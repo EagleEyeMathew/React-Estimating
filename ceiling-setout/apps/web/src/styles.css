@@ -158,12 +158,15 @@ button.link { background: none; border: none; color: var(--info); padding: 0; te
 .chip.off { opacity: 0.4; }
 .chip .count { color: var(--muted); font-variant-numeric: tabular-nums; }
 .swatch { flex: 0 0 9px; width: 9px; height: 9px; border-radius: 2px; background: var(--muted); }
-.swatch.furring, .swatch.batten { background: #4caf7d; }
-.swatch.tsr, .swatch.main_tee, .swatch.click_rail, .swatch.primary_rail { background: #5b8dd6; }
-.swatch.cross_tee_1200, .swatch.cross_tee_600 { background: #8fb8e8; }
-.swatch.hanger { background: #e2664a; }
-.swatch.clip, .swatch.bracket { background: #a980d0; }
-.swatch.wall_angle, .swatch.perimeter_angle, .swatch.edge_trim { background: #9aa0a6; }
+/* Keyed on member type, so a custom layer gets the colour its members are drawn in. */
+.swatch.type-furring, .swatch.type-batten { background: #4caf7d; }
+.swatch.type-tsr, .swatch.type-main_tee, .swatch.type-rail { background: #5b8dd6; }
+.swatch.type-cross_tee { background: #8fb8e8; }
+.swatch.type-hanger { background: #e2664a; }
+.swatch.type-bracket { background: #a980d0; }
+.swatch.type-brace { background: #a980d0; }
+.swatch.type-bridging { background: #f0a92e; }
+.swatch.type-trim { background: #9aa0a6; }
 /* Not `.clip`: a layer named "clip" renders a <span class="swatch clip">, and a bare
    .clip rule would size its swatch to the width of this control. */
 .clip-control { flex: 0 0 260px; }
@@ -254,4 +257,32 @@ footer {
   display: flex;
   gap: 16px;
   flex-wrap: wrap;
+}
+
+/* --- layer and catalogue editor --- */
+
+.layer-row { border: 1px solid var(--line); border-radius: 6px; margin-bottom: 6px; background: var(--panel-2); }
+.layer-row.open { border-color: #3d444d; }
+.layer-head { display: flex; align-items: center; gap: 8px; padding: 6px 8px; }
+.layer-head .note { margin-left: auto; font-size: 11px; }
+.layer-head button:not(.link) { padding: 1px 7px; line-height: 1.3; }
+.layer-name { flex: 0 1 auto; text-align: left; text-decoration: none; }
+.layer-name code { color: var(--ink); }
+.layer-body { padding: 4px 10px 10px; border-top: 1px solid var(--line); }
+.layer-body label > span:first-child { flex: 0 0 150px; }
+
+.catalogue-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--line);
+}
+.catalogue-row > div { flex: 1 1 auto; min-width: 0; }
+.catalogue-row .note { display: block; font-size: 11px; }
+.catalogue-row button { flex: 0 0 auto; }
+
+.error-banner {
+  background: rgba(224, 82, 82, 0.12);
+  border-color: rgba(224, 82, 82, 0.4);
 }

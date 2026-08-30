@@ -155,3 +155,23 @@ stopping short of the rail it holds.
 Fill them in from the current manufacturer literature using the rule pack editor, which
 records the document and revision against each value. Publishing forks to a new version,
 so a project saved against `2026.1` keeps regenerating against `2026.1`.
+
+### Adding your own
+
+A pack's shape is data as much as its figures are, so the **Layers** tab edits the
+structure and not just the numbers: add a rail, a second stage of suspension, a clip
+layer, a product nobody has catalogued, a load case. Nothing here needs a code change,
+which is the only way "adding a system is a data task" is actually true.
+
+A new layer starts with every figure blank, so it behaves exactly like one in a shipped
+skeleton — the engine reports what it needs rather than generating on a default nobody
+entered. The member type decides how it behaves (a hanger is suspended and gets a drop,
+a bracket is a point, everything else is a run); the name is yours.
+
+Layers name each other in six places — what bears on what, what runs along what, what
+hangs from what, what is cut at whose crossings, the trimmer, and every load case's
+limits. Every structural edit keeps those intact. Removing a layer says what names it
+and refuses until you have seen the list; renaming rewrites every reference and every
+citation. A layer of points cannot be detached from the member it runs along — a clip on
+a channel that no longer exists is not a clip — so it is removed with it, and the panel
+says so before anything happens.
